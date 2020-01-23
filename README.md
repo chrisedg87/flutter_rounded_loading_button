@@ -2,7 +2,7 @@
 
 RoundedLoadingButton is a Flutter package with a simple implementation of an animated loading button, complete with success and error animations.
 
-![](screenshots/loading-button.gif =180x)
+![](screenshots/loading-button.gif)
 
 ## Installation
 
