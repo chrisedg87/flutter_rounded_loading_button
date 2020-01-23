@@ -8,20 +8,17 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
 
     Add this to your pubspec.yaml:
     
-    ```
     dependencies:
         rounded_loading_button: ^1.0.0
-    ```
 
 ## Usage
 
 ### Import
 
-    `import 'package:rounded_loading_button/rounded_loading_button.dart';`
+    import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 ### Simple Implementation
 
-    ```
     final RoundedLoadingButtonController _btnController = new RoundedLoadingButtonController();
 
     void _doSomething() async {
@@ -35,4 +32,3 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
         controller: _btnController,
         onPressed: _doSomething,
     )
-    ```
