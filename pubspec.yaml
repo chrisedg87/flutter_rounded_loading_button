@@ -2,7 +2,7 @@ name: rounded_loading_button
 description: A new Flutter package project.
 version: 0.0.1
 author: Chris Edgington
-homepage:
+homepage: https://github.com/chrisedg87/flutter_rounded_loading_button
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
