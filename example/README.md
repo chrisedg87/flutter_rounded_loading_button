@@ -1,6 +1,39 @@
 # example_app
 
-A new Flutter project.
+    class _MyHomePageState extends State<MyHomePage> {
+
+    final RoundedLoadingButtonController _btnController = new RoundedLoadingButtonController();
+
+    void _doSomething() async {
+        Timer(Duration(seconds: 3), () {
+        _btnController.success();
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+
+        return Scaffold(
+        appBar: AppBar(
+
+            title: Text(widget.title),
+        ),
+        body: Center(
+            child: Column(
+
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                RoundedLoadingButton(
+                child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+                controller: _btnController,
+                onPressed: _doSomething,
+                )
+            ],
+            ),
+        )
+        );
+    }
+    }
 
 ## Getting Started
 
