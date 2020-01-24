@@ -1,3 +1,7 @@
+## [1.0.3]
+
+* Example test updates
+
 ## [1.0.2]
 
 * Example updates
