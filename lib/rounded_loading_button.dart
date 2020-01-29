@@ -9,6 +9,8 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final Widget child;
 
+  final BorderRadius borderRadius;
+
   final Color color;
 
   final double height;
@@ -19,6 +21,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.onPressed,
       this.child,
       this.color = Colors.blue,
+      this.borderRadius,
       this.height = 50});
 
   @override
@@ -43,7 +46,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         decoration: new BoxDecoration(
           color: widget.color,
           borderRadius:
-              new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+              widget.borderRadius  != null ? BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)) : widget.borderRadius,
         ),
         width: _bounceAnimation.value,
         height: _bounceAnimation.value,
@@ -59,7 +62,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         decoration: new BoxDecoration(
           color: Colors.red,
           borderRadius:
-              new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+              widget.borderRadius  != null ? BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)) : widget.borderRadius,
         ),
         width: _bounceAnimation.value,
         height: _bounceAnimation.value,
