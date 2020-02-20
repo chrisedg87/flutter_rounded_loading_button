@@ -129,6 +129,13 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     widget.controller?._addListeners(_start, _stop, _success, _error, _reset);
   }
 
+  @override
+  void dispose() {
+    _buttonController.dispose();
+    _checkButtonControler.dispose();
+    super.dispose();
+  }
+
   _start() {
     _buttonController.forward();
   }
