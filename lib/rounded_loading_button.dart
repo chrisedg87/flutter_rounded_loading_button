@@ -13,13 +13,19 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final double height;
 
+  final double width;
+
+  final bool animateOnTap;
+
   RoundedLoadingButton(
       {Key key,
       this.controller,
       this.onPressed,
       this.child,
       this.color = Colors.blue,
-      this.height = 50});
+      this.height = 50,
+      this.width = 300,
+      this.animateOnTap = true});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -86,7 +92,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           child: _squeezeAnimation.value > 150 ? widget.child : _loader,
           color: widget.color,
           onPressed: () async {
-            _start();
+            if (widget.animateOnTap) {
+              _start();
+            } else {
+              widget.onPressed();
+            }
           }),
     );
 
@@ -113,7 +123,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       setState(() {});
     });
 
-    _squeezeAnimation = Tween<double>(begin: 300, end: widget.height).animate(
+    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height).animate(
         new CurvedAnimation(
             parent: _buttonController, curve: Curves.easeInOutCirc));
     _squeezeAnimation.addListener(() {
