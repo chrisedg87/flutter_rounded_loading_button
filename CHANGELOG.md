@@ -1,3 +1,9 @@
+## [1.0.4]
+
+* Added animation disposal
+* Added configurable width
+* Added configurable animation on tapped
+
 ## [1.0.3]
 
 * Example test updates
