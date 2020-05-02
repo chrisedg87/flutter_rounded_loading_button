@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _doSomething() async {
     Timer(Duration(seconds: 3), () {
-      _btnController.success();
+      // _btnController.success();
     });
   }
 
@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
               controller: _btnController,
               onPressed: _doSomething,
+              width: 200,
             )
           ],
         ),

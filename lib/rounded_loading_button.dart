@@ -1,6 +1,9 @@
 library rounded_loading_button;
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+
+enum LoadingState { idle, loading, success, error }
 
 class RoundedLoadingButton extends StatefulWidget {
   final RoundedLoadingButtonController controller;
@@ -39,8 +42,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   Animation _squeezeAnimation;
   Animation _bounceAnimation;
 
-  bool _isSuccessful = false;
-  bool _isErrored = false;
+  // bool _isSuccessful = false;
+  // bool _isErrored = false;
+
+  final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +88,23 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             strokeWidth: 2));
 
+    var childStream = StreamBuilder(
+      stream: _state,
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        return AnimatedSwitcher(
+            duration: Duration(milliseconds: 200),
+            child: snapshot.data == LoadingState.loading ? _loader : widget.child
+          );
+      },
+    );
+
     var _btn = ButtonTheme(
       shape:
           RoundedRectangleBorder(borderRadius: new BorderRadius.circular(35)),
       minWidth: _squeezeAnimation.value,
       height: widget.height,
       child: RaisedButton(
-          child: _squeezeAnimation.value > 150 ? widget.child : _loader,
+          child: childStream,
           color: widget.color,
           onPressed: () async {
             if (widget.animateOnTap) {
@@ -103,12 +118,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     return Container(
         height: widget.height,
         child:
-            Center(child: _isErrored ? _cross : _isSuccessful ? _check : _btn));
+            Center(child: _state.value == LoadingState.error ? _cross : _state.value == LoadingState.success ? _check : _btn));
   }
 
   @override
   void initState() {
     super.initState();
+
+    print('State ' + _state.value.toString());
 
     _buttonController = new AnimationController(
         duration: new Duration(milliseconds: 500), vsync: this);
@@ -147,29 +164,27 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   }
 
   _start() {
+    _state.sink.add(LoadingState.loading);
     _buttonController.forward();
   }
 
   _stop() {
-    _isSuccessful = false;
-    _isErrored = false;
+    _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
   }
 
   _success() {
-    _isSuccessful = true;
-    _isErrored = false;
+    _state.sink.add(LoadingState.success);
     _checkButtonControler.forward();
   }
 
   _error() {
-    _isErrored = true;
+    _state.sink.add(LoadingState.error);
     _checkButtonControler.forward();
   }
 
   _reset() {
-    _isSuccessful = false;
-    _isErrored = false;
+    _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
   }
 }
