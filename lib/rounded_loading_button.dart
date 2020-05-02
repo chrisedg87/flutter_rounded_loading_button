@@ -104,6 +104,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       minWidth: _squeezeAnimation.value,
       height: widget.height,
       child: RaisedButton(
+          padding: EdgeInsets.all(0),
           child: childStream,
           color: widget.color,
           onPressed: () async {
