@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _doSomething() async {
     Timer(Duration(seconds: 3), () {
-      // _btnController.success();
+      _btnController.success();
     });
   }
 
@@ -43,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Center(

@@ -107,13 +107,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           padding: EdgeInsets.all(0),
           child: childStream,
           color: widget.color,
-          onPressed: () async {
-            if (widget.animateOnTap) {
-              _start();
-            } else {
-              widget.onPressed();
-            }
-          }),
+          onPressed: widget.onPressed == null ? null : _btnPressed
+      )
     );
 
     return Container(
@@ -125,8 +120,6 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   @override
   void initState() {
     super.initState();
-
-    print('State ' + _state.value.toString());
 
     _buttonController = new AnimationController(
         duration: new Duration(milliseconds: 500), vsync: this);
@@ -162,6 +155,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _buttonController.dispose();
     _checkButtonControler.dispose();
     super.dispose();
+  }
+
+  _btnPressed() async {
+    if (widget.animateOnTap) {
+      _start();
+    } else {
+      widget.onPressed();
+    }
   }
 
   _start() {
