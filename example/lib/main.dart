@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RoundedLoadingButton(
@@ -55,7 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _btnController,
               onPressed: _doSomething,
               width: 200,
-            )
+            ),
+            FlatButton(
+              child: Text("Reset"),
+              onPressed: _btnController.reset)
           ],
         ),
       )
