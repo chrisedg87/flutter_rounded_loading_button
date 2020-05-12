@@ -1,6 +1,7 @@
 ## [1.0.6]
 
 * Fixed the issue were BehaviorSubject was not closed correctly 
+* Fixed the animation reset bug #6
 
 ## [1.0.5]
 
