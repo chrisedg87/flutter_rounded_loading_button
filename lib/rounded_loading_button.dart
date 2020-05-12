@@ -186,6 +186,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   _reset() {
     _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
+    _checkButtonControler.reset();
   }
 }
 

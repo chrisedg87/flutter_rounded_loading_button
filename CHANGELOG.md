@@ -1,3 +1,7 @@
+## [1.0.6]
+
+* Fixed the issue were BehaviorSubject was not closed correctly 
+
 ## [1.0.5]
 
 * Fixed loading width bug #3
