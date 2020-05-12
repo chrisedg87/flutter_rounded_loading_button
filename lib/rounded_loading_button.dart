@@ -42,9 +42,6 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   Animation _squeezeAnimation;
   Animation _bounceAnimation;
 
-  // bool _isSuccessful = false;
-  // bool _isErrored = false;
-
   final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
 
   @override
@@ -154,6 +151,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   void dispose() {
     _buttonController.dispose();
     _checkButtonControler.dispose();
+    _state.close();
     super.dispose();
   }
 
