@@ -22,7 +22,7 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final Color valueColor;
 
-  final Curve animationCurve;
+  final Curve curve;
 
   RoundedLoadingButton(
       {Key key,
@@ -34,7 +34,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.width = 300,
       this.animateOnTap = true,
       this.valueColor = Colors.white,
-      this.animationCurve = Curves.easeInOutCirc});
+      this.curve = Curves.easeInOutCirc});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -139,7 +139,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
         .animate(new CurvedAnimation(
-            parent: _buttonController, curve: widget.animationCurve));
+            parent: _buttonController, curve: widget.curve));
     _squeezeAnimation.addListener(() {
       setState(() {});
     });
