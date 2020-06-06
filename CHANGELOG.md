@@ -1,3 +1,7 @@
+## [1.0.7]
+ 
+ ** Added configurable circular progress color #8
+
 ## [1.0.6]
 
 * Fixed the issue were BehaviorSubject was not closed correctly 
