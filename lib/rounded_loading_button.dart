@@ -20,6 +20,8 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final bool animateOnTap;
 
+  final Color valueColor;
+
   RoundedLoadingButton(
       {Key key,
       this.controller,
@@ -28,7 +30,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.color = Colors.blue,
       this.height = 50,
       this.width = 300,
-      this.animateOnTap = true});
+      this.animateOnTap = true,
+      this.valueColor = Colors.white});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -58,7 +61,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         child: _bounceAnimation.value > 20
             ? Icon(
                 Icons.check,
-                color: Colors.white,
+                color: widget.valueColor,
               )
             : null);
 
@@ -74,7 +77,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         child: _bounceAnimation.value > 20
             ? Icon(
                 Icons.close,
-                color: Colors.white,
+                color: widget.valueColor,
               )
             : null);
 
@@ -82,7 +85,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         height: widget.height - 25,
         width: widget.height - 25,
         child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
             strokeWidth: 2));
 
     var childStream = StreamBuilder(
