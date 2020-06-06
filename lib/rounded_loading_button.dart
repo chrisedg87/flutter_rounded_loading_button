@@ -90,31 +90,31 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     var childStream = StreamBuilder(
       stream: _state,
-      builder: (BuildContext context, AsyncSnapshot snapshot){
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         return AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
-            child: snapshot.data == LoadingState.loading ? _loader : widget.child
-          );
+            child:
+                snapshot.data == LoadingState.loading ? _loader : widget.child);
       },
     );
 
     var _btn = ButtonTheme(
-      shape:
-          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(35)),
-      minWidth: _squeezeAnimation.value,
-      height: widget.height,
-      child: RaisedButton(
-          padding: EdgeInsets.all(0),
-          child: childStream,
-          color: widget.color,
-          onPressed: widget.onPressed == null ? null : _btnPressed
-      )
-    );
+        shape:
+            RoundedRectangleBorder(borderRadius: new BorderRadius.circular(35)),
+        minWidth: _squeezeAnimation.value,
+        height: widget.height,
+        child: RaisedButton(
+            padding: EdgeInsets.all(0),
+            child: childStream,
+            color: widget.color,
+            onPressed: widget.onPressed == null ? null : _btnPressed));
 
     return Container(
         height: widget.height,
-        child:
-            Center(child: _state.value == LoadingState.error ? _cross : _state.value == LoadingState.success ? _check : _btn));
+        child: Center(
+            child: _state.value == LoadingState.error
+                ? _cross
+                : _state.value == LoadingState.success ? _check : _btn));
   }
 
   @override
@@ -134,8 +134,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       setState(() {});
     });
 
-    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height).animate(
-        new CurvedAnimation(
+    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
+        .animate(new CurvedAnimation(
             parent: _buttonController, curve: Curves.easeInOutCirc));
     _squeezeAnimation.addListener(() {
       setState(() {});
