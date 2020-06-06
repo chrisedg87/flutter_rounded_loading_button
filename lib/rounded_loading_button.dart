@@ -29,7 +29,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.controller,
       this.onPressed,
       this.child,
-      this.color = Colors.blue,
+      this.color,
       this.height = 50,
       this.width = 300,
       this.animateOnTap = true,
@@ -52,10 +52,12 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     var _check = Container(
         alignment: FractionalOffset.center,
         decoration: new BoxDecoration(
-          color: widget.color,
+          color: widget.color ?? theme.primaryColor,
           borderRadius:
               new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
         ),
