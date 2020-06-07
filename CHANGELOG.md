@@ -1,6 +1,11 @@
+## [1.0.8]
+
+* README fix
+* Colour now inherits from theme
+
 ## [1.0.7]
- 
- ** Added configurable circular progress color #8
+
+* Added configurable circular progress color #8
 
 ## [1.0.6]
 
