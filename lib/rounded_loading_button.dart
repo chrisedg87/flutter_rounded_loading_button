@@ -24,6 +24,8 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final Curve curve;
 
+  final double borderRadius;
+
   RoundedLoadingButton(
       {Key key,
       this.controller,
@@ -34,6 +36,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.width = 300,
       this.animateOnTap = true,
       this.valueColor = Colors.white,
+      this.borderRadius = 35,
       this.curve = Curves.easeInOutCirc});
 
   @override
@@ -47,6 +50,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   Animation _squeezeAnimation;
   Animation _bounceAnimation;
+  Animation _borderAnimation;
 
   final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
 
@@ -105,7 +109,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     var _btn = ButtonTheme(
         shape:
-            RoundedRectangleBorder(borderRadius: new BorderRadius.circular(35)),
+            RoundedRectangleBorder(borderRadius: _borderAnimation.value),
         minWidth: _squeezeAnimation.value,
         height: widget.height,
         child: RaisedButton(
@@ -142,6 +146,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
         .animate(new CurvedAnimation(
             parent: _buttonController, curve: widget.curve));
+
     _squeezeAnimation.addListener(() {
       setState(() {});
     });
@@ -150,6 +155,15 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       if (state == AnimationStatus.completed) {
         widget.onPressed();
       }
+    });
+
+    _borderAnimation = BorderRadiusTween(begin: BorderRadius.circular(widget.borderRadius), end: BorderRadius.circular(widget.height))
+      .animate(new CurvedAnimation(
+            parent: _buttonController, curve: Curves.linear));
+
+    _borderAnimation.addListener(() {
+      setState(() {});
+      print(_borderAnimation.value);
     });
 
     widget.controller?._addListeners(_start, _stop, _success, _error, _reset);
