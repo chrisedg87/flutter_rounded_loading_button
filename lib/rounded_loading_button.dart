@@ -26,6 +26,10 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final double borderRadius;
 
+  final Duration duration;
+
+  Duration borderDuration;
+
   RoundedLoadingButton(
       {Key key,
       this.controller,
@@ -37,7 +41,10 @@ class RoundedLoadingButton extends StatefulWidget {
       this.animateOnTap = true,
       this.valueColor = Colors.white,
       this.borderRadius = 35,
-      this.curve = Curves.easeInOutCirc});
+      this.duration = const Duration(milliseconds: 500),
+      this.curve = Curves.easeInOutCirc}) {
+        this.borderDuration = new Duration(milliseconds: (this.duration.inMilliseconds / 2).round());
+      }
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -132,13 +139,13 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     super.initState();
 
     _buttonController = new AnimationController(
-        duration: new Duration(milliseconds: 500), vsync: this);
+        duration: widget.duration, vsync: this);
 
     _checkButtonControler = new AnimationController(
         duration: new Duration(milliseconds: 1000), vsync: this);
 
     _borderController = new AnimationController(
-        duration: new Duration(milliseconds: 250), vsync: this);
+        duration: widget.borderDuration, vsync: this);
 
     _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
         new CurvedAnimation(

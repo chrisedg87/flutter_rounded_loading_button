@@ -1,3 +1,8 @@
+## [1.0.9]
+
+* Added configurable border radius
+* Added configurable animation duration
+
 ## [1.0.8]
 
 * README fix
