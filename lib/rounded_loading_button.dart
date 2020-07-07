@@ -46,6 +46,7 @@ class RoundedLoadingButton extends StatefulWidget {
 class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     with TickerProviderStateMixin {
   AnimationController _buttonController;
+  AnimationController _borderController;
   AnimationController _checkButtonControler;
 
   Animation _squeezeAnimation;
@@ -136,6 +137,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _checkButtonControler = new AnimationController(
         duration: new Duration(milliseconds: 1000), vsync: this);
 
+    _borderController = new AnimationController(
+        duration: new Duration(milliseconds: 250), vsync: this);
+
     _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
         new CurvedAnimation(
             parent: _checkButtonControler, curve: Curves.elasticOut));
@@ -158,8 +162,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     });
 
     _borderAnimation = BorderRadiusTween(begin: BorderRadius.circular(widget.borderRadius), end: BorderRadius.circular(widget.height))
-      .animate(new CurvedAnimation(
-            parent: _buttonController, curve: Curves.linear));
+      .animate(_borderController);
 
     _borderAnimation.addListener(() {
       setState(() {});
@@ -173,6 +176,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   void dispose() {
     _buttonController.dispose();
     _checkButtonControler.dispose();
+    _borderController.dispose();
     _state.close();
     super.dispose();
   }
@@ -187,12 +191,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   _start() {
     _state.sink.add(LoadingState.loading);
+    _borderController.forward();
     _buttonController.forward();
   }
 
   _stop() {
     _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
+    _borderController.reverse();
   }
 
   _success() {
@@ -208,6 +214,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   _reset() {
     _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
+    _borderController.reverse();
     _checkButtonControler.reset();
   }
 }
