@@ -28,6 +28,8 @@ class RoundedLoadingButton extends StatefulWidget {
 
   final Duration duration;
 
+  final double elevation;
+
   Duration get _borderDuration {
     return new Duration(milliseconds: (this.duration.inMilliseconds / 2).round());
   }
@@ -43,6 +45,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.animateOnTap = true,
       this.valueColor = Colors.white,
       this.borderRadius = 35,
+      this.elevation = 2,
       this.duration = const Duration(milliseconds: 500),
       this.curve = Curves.easeInOutCirc});
 
@@ -124,6 +127,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             padding: EdgeInsets.all(0),
             child: childStream,
             color: widget.color,
+            elevation: widget.elevation,
             onPressed: widget.onPressed == null ? null : _btnPressed));
 
     return Container(
