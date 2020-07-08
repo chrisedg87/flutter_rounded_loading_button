@@ -1,3 +1,7 @@
+## [1.0.10]
+
+* Added configurable button elevation
+
 ## [1.0.9]
 
 * Added configurable border radius
