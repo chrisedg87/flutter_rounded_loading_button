@@ -177,7 +177,6 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     _borderAnimation.addListener(() {
       setState(() {});
-      print(_borderAnimation.value);
     });
 
     widget.controller?._addListeners(_start, _stop, _success, _error, _reset);
