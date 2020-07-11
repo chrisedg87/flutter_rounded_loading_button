@@ -1,3 +1,7 @@
+## [1.0.11]
+
+* Fix for print statement 
+
 ## [1.0.10]
 
 * Added configurable button elevation
