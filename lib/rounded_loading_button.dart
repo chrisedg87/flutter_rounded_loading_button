@@ -31,7 +31,8 @@ class RoundedLoadingButton extends StatefulWidget {
   final double elevation;
 
   Duration get _borderDuration {
-    return new Duration(milliseconds: (this.duration.inMilliseconds / 2).round());
+    return new Duration(
+        milliseconds: (this.duration.inMilliseconds / 2).round());
   }
 
   RoundedLoadingButton(
@@ -119,8 +120,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     );
 
     var _btn = ButtonTheme(
-        shape:
-            RoundedRectangleBorder(borderRadius: _borderAnimation.value),
+        shape: RoundedRectangleBorder(borderRadius: _borderAnimation.value),
         minWidth: _squeezeAnimation.value,
         height: widget.height,
         child: RaisedButton(
@@ -142,14 +142,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   void initState() {
     super.initState();
 
-    _buttonController = new AnimationController(
-        duration: widget.duration, vsync: this);
+    _buttonController =
+        new AnimationController(duration: widget.duration, vsync: this);
 
     _checkButtonControler = new AnimationController(
         duration: new Duration(milliseconds: 1000), vsync: this);
 
-    _borderController = new AnimationController(
-        duration: widget._borderDuration, vsync: this);
+    _borderController =
+        new AnimationController(duration: widget._borderDuration, vsync: this);
 
     _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
         new CurvedAnimation(
@@ -172,8 +172,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       }
     });
 
-    _borderAnimation = BorderRadiusTween(begin: BorderRadius.circular(widget.borderRadius), end: BorderRadius.circular(widget.height))
-      .animate(_borderController);
+    _borderAnimation = BorderRadiusTween(
+            begin: BorderRadius.circular(widget.borderRadius),
+            end: BorderRadius.circular(widget.height))
+        .animate(_borderController);
 
     _borderAnimation.addListener(() {
       setState(() {});
