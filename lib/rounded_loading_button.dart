@@ -8,26 +8,37 @@ enum LoadingState { idle, loading, success, error }
 class RoundedLoadingButton extends StatefulWidget {
   final RoundedLoadingButtonController controller;
 
+  /// The callback that is called when the button is tapped or otherwise activated.
   final VoidCallback onPressed;
 
+  /// The button's label
   final Widget child;
 
+  /// The primary color of the button
   final Color color;
 
+  /// The vertical extent of the button.
   final double height;
 
+  /// The horiztonal extent of the button.
   final double width;
 
+  /// Whether to trigger the animation on the tap event
   final bool animateOnTap;
 
+  /// The color of the static icons 
   final Color valueColor;
 
+  /// The curve of the shrink animation
   final Curve curve;
 
+  /// The radius of the button border
   final double borderRadius;
 
+  /// The duration of the button animation
   final Duration duration;
 
+  /// The elevation of the raised button
   final double elevation;
 
   Duration get _borderDuration {
