@@ -1,3 +1,8 @@
+## [1.0.12]
+
+* Added documentation
+* Formatting fixes
+
 ## [1.0.11]
 
 * Fix for print statement 
