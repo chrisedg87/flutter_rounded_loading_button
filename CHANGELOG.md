@@ -1,3 +1,7 @@
+## [1.0.13]
+
+* Downgraded rxdart dependency 
+
 ## [1.0.12]
 
 * Added documentation

@@ -129,14 +129,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.12"
+    version: "1.0.13"
   rxdart:
     dependency: transitive
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.24.0"
+    version: "0.23.1"
   sky_engine:
     dependency: transitive
     description: flutter
