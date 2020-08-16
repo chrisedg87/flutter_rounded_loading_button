@@ -178,7 +178,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     });
 
     _squeezeAnimation.addStatusListener((state) {
-      if (state == AnimationStatus.completed) {
+      if (state == AnimationStatus.completed && widget.animateOnTap) {
         widget.onPressed();
       }
     });
