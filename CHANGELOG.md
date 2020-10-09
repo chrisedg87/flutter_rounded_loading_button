@@ -1,3 +1,7 @@
+## [1.0.14]
+
+* Updated dartrx package version
+
 ## [1.0.13]
 
 * Downgraded rxdart dependency 
