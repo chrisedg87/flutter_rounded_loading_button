@@ -41,6 +41,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The elevation of the raised button
   final double elevation;
 
+  /// The color of the button when it is in the error state
+  final Color errorColor;
+
   Duration get _borderDuration {
     return new Duration(
         milliseconds: (this.duration.inMilliseconds / 2).round());
@@ -59,7 +62,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.borderRadius = 35,
       this.elevation = 2,
       this.duration = const Duration(milliseconds: 500),
-      this.curve = Curves.easeInOutCirc});
+      this.curve = Curves.easeInOutCirc,
+      this.errorColor = Colors.red});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -100,7 +104,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     var _cross = Container(
         alignment: FractionalOffset.center,
         decoration: new BoxDecoration(
-          color: Colors.red,
+          color: widget.errorColor,
           borderRadius:
               new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
         ),
