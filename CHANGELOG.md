@@ -1,3 +1,7 @@
+## [1.0.15]
+
+* Added custom color option for error state
+
 ## [1.0.14]
 
 * Updated dartrx package version
