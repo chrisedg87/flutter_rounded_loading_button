@@ -44,6 +44,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The color of the button when it is in the error state
   final Color errorColor;
 
+  /// The color of the button when it is in the success state
+  final Color successColor;
+
   Duration get _borderDuration {
     return new Duration(
         milliseconds: (this.duration.inMilliseconds / 2).round());
@@ -63,7 +66,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.elevation = 2,
       this.duration = const Duration(milliseconds: 500),
       this.curve = Curves.easeInOutCirc,
-      this.errorColor = Colors.red});
+      this.errorColor = Colors.red,
+      this.successColor});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -88,7 +92,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     var _check = Container(
         alignment: FractionalOffset.center,
         decoration: new BoxDecoration(
-          color: widget.color ?? theme.primaryColor,
+          color: widget.successColor ?? theme.primaryColor,
           borderRadius:
               new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
         ),
