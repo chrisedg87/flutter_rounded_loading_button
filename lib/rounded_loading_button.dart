@@ -23,6 +23,12 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The horiztonal extent of the button.
   final double width;
 
+  /// The size of the CircularProgressIndicator
+  final double loaderSize;
+
+  /// The stroke width of the CircularProgressIndicator
+  final double loaderStrokeWidth;
+
   /// Whether to trigger the animation on the tap event
   final bool animateOnTap;
 
@@ -60,6 +66,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.color,
       this.height = 50,
       this.width = 300,
+      this.loaderSize = 24.0,
+      this.loaderStrokeWidth = 2.0,
       this.animateOnTap = true,
       this.valueColor = Colors.white,
       this.borderRadius = 35,
@@ -122,11 +130,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             : null);
 
     var _loader = SizedBox(
-        height: widget.height - 25,
-        width: widget.height - 25,
+        height: widget.loaderSize,
+        width: widget.loaderSize,
         child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
-            strokeWidth: 2));
+            strokeWidth: widget.loaderStrokeWidth));
 
     var childStream = StreamBuilder(
       stream: _state,
