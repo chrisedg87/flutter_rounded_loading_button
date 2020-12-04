@@ -18,6 +18,5 @@ jobs:
       with:
         channel: 'stable' 
     - run: flutter pub get
-    - run: flutter build aot lib/rounded_loading_button.dart
     - run: flutter analyze
     - run: flutter test --coverage
