@@ -1,3 +1,7 @@
+## [1.0.16]
+* Add custom button color option for success state 
+* Add option to resize the CircularProgressIndicator
+
 ## [1.0.15]
 
 * Added custom color option for error state
