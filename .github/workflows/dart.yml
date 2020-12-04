@@ -1,4 +1,4 @@
-name: Dart
+name: flutter_build_and_test
 
 on:
   push:
@@ -18,6 +18,6 @@ jobs:
       with:
         channel: 'stable' 
     - run: flutter pub get
-    - run: flutter build aot
+    - run: flutter build aot lib/rounded_loading_button.dart
     - run: flutter analyze
     - run: flutter test --coverage
