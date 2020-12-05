@@ -32,7 +32,7 @@ class RoundedLoadingButton extends StatefulWidget {
   /// Whether to trigger the animation on the tap event
   final bool animateOnTap;
 
-  /// The color of the static icons 
+  /// The color of the static icons
   final Color valueColor;
 
   /// The curve of the shrink animation
@@ -52,6 +52,9 @@ class RoundedLoadingButton extends StatefulWidget {
 
   /// The color of the button when it is in the success state
   final Color successColor;
+
+  /// The color of the button when it is disabled
+  final Color disabledColor;
 
   Duration get _borderDuration {
     return new Duration(
@@ -75,7 +78,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.duration = const Duration(milliseconds: 500),
       this.curve = Curves.easeInOutCirc,
       this.errorColor = Colors.red,
-      this.successColor});
+      this.successColor,
+      this.disabledColor});
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -154,6 +158,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             padding: EdgeInsets.all(0),
             child: childStream,
             color: widget.color,
+            disabledColor: widget.disabledColor,
             elevation: widget.elevation,
             onPressed: widget.onPressed == null ? null : _btnPressed));
 
