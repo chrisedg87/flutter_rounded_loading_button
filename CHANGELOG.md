@@ -1,3 +1,6 @@
+## [1.0.17]
+* Allow to change color when the button is disabled
+
 ## [1.0.16]
 * Add custom button color option for success state 
 * Add option to resize the CircularProgressIndicator
