@@ -45,6 +45,8 @@ void main() {
 
   });
 
+
+
   testWidgets('should show progress indicator when in loading state', (tester) async {
     final btnController = new RoundedLoadingButtonController();
     
@@ -68,6 +70,66 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets('should stop and return to default', (tester) async {
+    final btnController = new RoundedLoadingButtonController();
+    
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Material(
+          child: Center(
+            child: RoundedLoadingButton(
+              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              controller: btnController,
+              width: 200
+            ),
+          ),
+        )
+      )
+    );
+
+    btnController.start();
+
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    btnController.stop();
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tap me!'), findsOneWidget);
+  });
+
+  testWidgets('should reset to default state', (tester) async {
+    final btnController = new RoundedLoadingButtonController();
+    
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Material(
+          child: Center(
+            child: RoundedLoadingButton(
+              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              controller: btnController,
+              width: 200
+            ),
+          ),
+        )
+      )
+    );
+
+    btnController.success();
+
+    await tester.pumpAndSettle();
+
+    btnController.reset();
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tap me!'), findsOneWidget);
   });
 
   testWidgets('should not show progress indicator when in idle state', (tester) async {
