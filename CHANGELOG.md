@@ -1,3 +1,6 @@
+## [1.0.18]
+* Updated dependencies
+
 ## [1.0.17]
 * Allow to change color when the button is disabled
 
