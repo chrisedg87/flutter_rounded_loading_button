@@ -1,7 +1,14 @@
 library rounded_loading_button;
 
 import 'package:flutter/material.dart';
+
 import 'package:rxdart/rxdart.dart';
+
+import 'animated_check.dart';
+import 'animated_cross.dart';
+
+export 'animated_check.dart';
+export 'animated_cross.dart';
 
 enum LoadingState { idle, loading, success, error }
 
@@ -87,15 +94,81 @@ class RoundedLoadingButton extends StatefulWidget {
 
 class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     with TickerProviderStateMixin {
-  AnimationController _buttonController;
-  AnimationController _borderController;
-  AnimationController _checkButtonControler;
+  AnimationController _buttonAnimationController;
+  AnimationController _borderAnimationController;
+  AnimationController _checkContainerAnimationController;
+  AnimationController _checkAnimationController;
 
   Animation _squeezeAnimation;
-  Animation _bounceAnimation;
+  Animation _checkContainerAnimation;
   Animation _borderAnimation;
+  Animation _checkAnimation;
 
   final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
+
+   @override
+  void initState() {
+    super.initState();
+
+    _buttonAnimationController =
+        new AnimationController(duration: widget.duration, vsync: this);
+
+    _checkContainerAnimationController = new AnimationController(
+        duration: new Duration(milliseconds: 300), vsync: this);
+
+    _borderAnimationController =
+        new AnimationController(duration: widget._borderDuration, vsync: this);
+
+    _checkContainerAnimation = Tween<double>(begin: 0, end: widget.height).animate(
+        new CurvedAnimation(
+            parent: _checkContainerAnimationController, curve: Curves.easeInOutCirc));
+
+    _checkAnimationController = new AnimationController(vsync: this, duration: Duration(seconds: 1));
+
+    _checkAnimation = new Tween<double>(begin: 0, end: 1)
+      .animate(new CurvedAnimation(
+        parent: _checkAnimationController, 
+        curve: Curves.easeInOutCirc)
+      );
+
+    _checkContainerAnimation.addListener(() {
+      setState(() {});
+    });
+
+    _checkAnimation.addListener(() {
+      setState(() {});
+    });
+
+    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
+        .animate(new CurvedAnimation(
+            parent: _buttonAnimationController, curve: widget.curve));
+
+    _squeezeAnimation.addListener(() {
+      setState(() {});
+    });
+
+    _squeezeAnimation.addStatusListener((state) {
+      if (state == AnimationStatus.completed && widget.animateOnTap) {
+        widget.onPressed();
+      }
+    });
+
+    _borderAnimation = BorderRadiusTween(
+            begin: BorderRadius.circular(widget.borderRadius),
+            end: BorderRadius.circular(widget.height))
+        .animate(_borderAnimationController);
+
+    _borderAnimation.addListener(() {
+      setState(() {});
+    });
+
+    widget.controller?.addListeners(
+      startListener: _start,
+      stopListener: _stop,
+      successListener: _success,
+      errorListener: _error,
+      resetListener: _reset);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,32 +179,31 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         decoration: new BoxDecoration(
           color: widget.successColor ?? theme.primaryColor,
           borderRadius:
-              new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+              new BorderRadius.all(Radius.circular(widget.height / 2)),
         ),
-        width: _bounceAnimation.value,
-        height: _bounceAnimation.value,
-        child: _bounceAnimation.value > 20
-            ? Icon(
-                Icons.check,
-                color: widget.valueColor,
-              )
-            : null);
+        width: widget.height,
+        height: widget.height,
+        child: AnimatedCheck(
+          progress: _checkAnimation,
+          color: Colors.white,
+          size: widget.height)
+    );
 
     var _cross = Container(
         alignment: FractionalOffset.center,
         decoration: new BoxDecoration(
           color: widget.errorColor,
           borderRadius:
-              new BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+              new BorderRadius.all(Radius.circular(widget.height / 2)),
         ),
-        width: _bounceAnimation.value,
-        height: _bounceAnimation.value,
-        child: _bounceAnimation.value > 20
-            ? Icon(
-                Icons.close,
-                color: widget.valueColor,
-              )
-            : null);
+        width: widget.height,
+        height: widget.height,
+        child: AnimatedCross(
+          progress: _checkAnimation,
+          color: Colors.white,
+          size: widget.height
+        )
+    );
 
     var _loader = SizedBox(
         height: widget.loaderSize,
@@ -168,59 +240,15 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             child: _state.value == LoadingState.error
                 ? _cross
                 : _state.value == LoadingState.success ? _check : _btn));
-  }
 
-  @override
-  void initState() {
-    super.initState();
-
-    _buttonController =
-        new AnimationController(duration: widget.duration, vsync: this);
-
-    _checkButtonControler = new AnimationController(
-        duration: new Duration(milliseconds: 1000), vsync: this);
-
-    _borderController =
-        new AnimationController(duration: widget._borderDuration, vsync: this);
-
-    _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
-        new CurvedAnimation(
-            parent: _checkButtonControler, curve: Curves.elasticOut));
-    _bounceAnimation.addListener(() {
-      setState(() {});
-    });
-
-    _squeezeAnimation = Tween<double>(begin: widget.width, end: widget.height)
-        .animate(new CurvedAnimation(
-            parent: _buttonController, curve: widget.curve));
-
-    _squeezeAnimation.addListener(() {
-      setState(() {});
-    });
-
-    _squeezeAnimation.addStatusListener((state) {
-      if (state == AnimationStatus.completed && widget.animateOnTap) {
-        widget.onPressed();
-      }
-    });
-
-    _borderAnimation = BorderRadiusTween(
-            begin: BorderRadius.circular(widget.borderRadius),
-            end: BorderRadius.circular(widget.height))
-        .animate(_borderController);
-
-    _borderAnimation.addListener(() {
-      setState(() {});
-    });
-
-    widget.controller?._addListeners(_start, _stop, _success, _error, _reset);
   }
 
   @override
   void dispose() {
-    _buttonController.dispose();
-    _checkButtonControler.dispose();
-    _borderController.dispose();
+    _buttonAnimationController.dispose();
+    _checkContainerAnimationController.dispose();
+    _borderAnimationController.dispose();
+    _checkAnimationController.dispose();
     _state.close();
     super.dispose();
   }
@@ -235,31 +263,37 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   _start() {
     _state.sink.add(LoadingState.loading);
-    _borderController.forward();
-    _buttonController.forward();
+    _borderAnimationController.forward();
+    _buttonAnimationController.forward();
   }
 
   _stop() {
     _state.sink.add(LoadingState.idle);
-    _buttonController.reverse();
-    _borderController.reverse();
+    _buttonAnimationController.reverse();
+    _borderAnimationController.reverse();
   }
 
-  _success() {
+  _success() async {
     _state.sink.add(LoadingState.success);
-    _checkButtonControler.forward();
+    _checkAnimationController.forward();
+    _checkContainerAnimationController.forward();
+
+    Future.delayed(const Duration(milliseconds: 300), _checkAnimationController.forward);
   }
 
   _error() {
     _state.sink.add(LoadingState.error);
-    _checkButtonControler.forward();
+    _checkContainerAnimationController.forward();
+    
+    Future.delayed(const Duration(milliseconds: 300), _checkAnimationController.forward);
   }
 
   _reset() {
     _state.sink.add(LoadingState.idle);
-    _buttonController.reverse();
-    _borderController.reverse();
-    _checkButtonControler.reset();
+    _buttonAnimationController.reverse();
+    _borderAnimationController.reverse();
+    _checkContainerAnimationController.reset();
+    _checkAnimationController.reset();
   }
 }
 
@@ -270,12 +304,12 @@ class RoundedLoadingButtonController {
   VoidCallback _errorListener;
   VoidCallback _resetListener;
 
-  _addListeners(
+  addListeners({
       VoidCallback startListener,
       VoidCallback stopListener,
       VoidCallback successListener,
       VoidCallback errorListener,
-      VoidCallback resetListener) {
+      VoidCallback resetListener}) {
     this._startListener = startListener;
     this._stopListener = stopListener;
     this._successListener = successListener;
