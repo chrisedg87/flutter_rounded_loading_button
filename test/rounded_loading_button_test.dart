@@ -13,7 +13,7 @@ class MockOnPressedFunction {
 }
 
 void main() {
-  MockOnPressedFunction mockOnPressedFunction;
+  late MockOnPressedFunction mockOnPressedFunction;
 
   setUp(() {
     mockOnPressedFunction = MockOnPressedFunction();

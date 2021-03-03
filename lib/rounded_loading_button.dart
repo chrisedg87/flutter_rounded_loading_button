@@ -6,16 +6,16 @@ import 'package:rxdart/rxdart.dart';
 enum LoadingState { idle, loading, success, error }
 
 class RoundedLoadingButton extends StatefulWidget {
-  final RoundedLoadingButtonController controller;
+  final RoundedLoadingButtonController? controller;
 
   /// The callback that is called when the button is tapped or otherwise activated.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The button's label
-  final Widget child;
+  final Widget? child;
 
   /// The primary color of the button
-  final Color color;
+  final Color? color;
 
   /// The vertical extent of the button.
   final double height;
@@ -51,10 +51,10 @@ class RoundedLoadingButton extends StatefulWidget {
   final Color errorColor;
 
   /// The color of the button when it is in the success state
-  final Color successColor;
+  final Color? successColor;
 
   /// The color of the button when it is disabled
-  final Color disabledColor;
+  final Color? disabledColor;
 
   Duration get _borderDuration {
     return new Duration(
@@ -62,7 +62,7 @@ class RoundedLoadingButton extends StatefulWidget {
   }
 
   RoundedLoadingButton(
-      {Key key,
+      {Key? key,
       this.controller,
       this.onPressed,
       this.child,
@@ -87,13 +87,13 @@ class RoundedLoadingButton extends StatefulWidget {
 
 class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     with TickerProviderStateMixin {
-  AnimationController _buttonController;
-  AnimationController _borderController;
-  AnimationController _checkButtonControler;
+  late AnimationController _buttonController;
+  late AnimationController _borderController;
+  late AnimationController _checkButtonControler;
 
-  Animation _squeezeAnimation;
-  Animation _bounceAnimation;
-  Animation _borderAnimation;
+  late Animation _squeezeAnimation;
+  late Animation _bounceAnimation;
+  late Animation _borderAnimation;
 
   final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
 
@@ -160,6 +160,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             color: widget.color,
             disabledColor: widget.disabledColor,
             elevation: widget.elevation,
+            
             onPressed: widget.onPressed == null ? null : _btnPressed));
 
     return Container(
@@ -167,7 +168,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         child: Center(
             child: _state.value == LoadingState.error
                 ? _cross
-                : _state.value == LoadingState.success ? _check : _btn));
+                : _state.value == LoadingState.success
+                    ? _check
+                    : _btn));
   }
 
   @override
@@ -200,7 +203,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     _squeezeAnimation.addStatusListener((state) {
       if (state == AnimationStatus.completed && widget.animateOnTap) {
-        widget.onPressed();
+        widget.onPressed!();
       }
     });
 
@@ -229,7 +232,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     if (widget.animateOnTap) {
       _start();
     } else {
-      widget.onPressed();
+      widget.onPressed!();
     }
   }
 
@@ -264,11 +267,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 }
 
 class RoundedLoadingButtonController {
-  VoidCallback _startListener;
-  VoidCallback _stopListener;
-  VoidCallback _successListener;
-  VoidCallback _errorListener;
-  VoidCallback _resetListener;
+  late VoidCallback _startListener;
+  late VoidCallback _stopListener;
+  late VoidCallback _successListener;
+  late VoidCallback _errorListener;
+  late VoidCallback _resetListener;
 
   _addListeners(
       VoidCallback startListener,
