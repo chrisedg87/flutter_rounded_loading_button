@@ -28,10 +28,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController1 =
-      new RoundedLoadingButtonController();
+      RoundedLoadingButtonController();
 
   final RoundedLoadingButtonController _btnController2 =
-      new RoundedLoadingButtonController();
+      RoundedLoadingButtonController();
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 3), () {
       controller.success();
@@ -51,12 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
               RoundedLoadingButton(
                 color: Colors.green,
                 successColor: Colors.green,
-                child: Text('Tap me !', style: TextStyle(color: Colors.white)),
                 controller: _btnController1,
                 elevation: 10,
                 onPressed: () => _doSomething(_btnController1),
                 height: 50,
                 width: 200,
+                child: Text('Tap me !', style: TextStyle(color: Colors.white)),
               ),
               SizedBox(
                 height: 50,
@@ -64,41 +64,43 @@ class _MyHomePageState extends State<MyHomePage> {
               RoundedLoadingButton(
                 color: Colors.amber,
                 successColor: Colors.amber,
-                child: Text(
-                    'Tap me i have a huge text, generating an even bigger button',
-                    style: TextStyle(color: Colors.white)),
                 controller: _btnController2,
                 onPressed: () => _doSomething(_btnController2),
                 valueColor: Colors.black,
                 borderRadius: 10,
+                child: Text(
+                    'Tap me i have a huge text, generating an even bigger button',
+                    style: TextStyle(color: Colors.white)),
               ),
               SizedBox(
                 height: 50,
               ),
               TextButton(
-                  child: Text("Reset"),
                   onPressed: () {
                     _btnController1.reset();
                     _btnController2.reset();
-                  }),
+                  },
+                  child: Text('Reset')),
               SizedBox(
                 height: 20,
               ),
               TextButton(
-                  child: Text("Error"),
-                  onPressed: () {
-                    _btnController1.error();
-                    _btnController2.error();
-                  }),
+                onPressed: () {
+                  _btnController1.error();
+                  _btnController2.error();
+                },
+                child: Text('Error'),
+              ),
               SizedBox(
                 height: 20,
               ),
               TextButton(
-                  child: Text("Success"),
-                  onPressed: () {
-                    _btnController1.success();
-                    _btnController2.success();
-                  })
+                onPressed: () {
+                  _btnController1.success();
+                  _btnController2.success();
+                },
+                child: Text('Success'),
+              )
             ],
           ),
         ));
