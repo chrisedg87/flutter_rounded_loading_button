@@ -1,3 +1,10 @@
+## [2.0.0]
+* Added compatibility with NullSafety
+* Removed RaisedButton deprecated
+* Add new ElevatedButton
+* Update dependencies
+* Added Pedantic recommendations, analyzer settings and best practices used internally at Google.
+
 ## [1.0.18]
 * Updated dependencies
 

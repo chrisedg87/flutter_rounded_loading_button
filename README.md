@@ -13,7 +13,7 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
    Add this to your pubspec.yaml:
     
     dependencies:
-        rounded_loading_button: ^1.0.0
+        rounded_loading_button: ^2.0.0
 
 ## Usage
 
@@ -40,7 +40,4 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
 ## Contributions
 
    All contributions are welcome!
-   
-## Did you find this useful?
 
-<a href="https://www.buymeacoffee.com/Chrisedgington" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"  width="216" height="60" ></a>

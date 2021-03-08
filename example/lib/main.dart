@@ -27,18 +27,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final RoundedLoadingButtonController _btnController =
+  final RoundedLoadingButtonController _btnController1 =
       new RoundedLoadingButtonController();
 
-  void _doSomething() async {
+  final RoundedLoadingButtonController _btnController2 =
+      new RoundedLoadingButtonController();
+  void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 3), () {
-      _btnController.success();
-    });
-    Timer(Duration(seconds: 3), () {
-      _btnController.reset();
-    });
-    Timer(Duration(seconds: 3), () {
-      _btnController.error();
+      controller.success();
     });
   }
 
@@ -53,13 +49,56 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RoundedLoadingButton(
-                child: Text('Tap me a aasa sa sa sas a sa sa sa sa s!',
-                    style: TextStyle(color: Colors.white)),
-                controller: _btnController,
-                onPressed: _doSomething,
+                color: Colors.green,
+                successColor: Colors.green,
+                child: Text('Tap me !', style: TextStyle(color: Colors.white)),
+                controller: _btnController1,
+                elevation: 10,
+                onPressed: () => _doSomething(_btnController1),
+                height: 50,
                 width: 200,
               ),
-              TextButton(child: Text("Reset"), onPressed: _btnController.reset)
+              SizedBox(
+                height: 50,
+              ),
+              RoundedLoadingButton(
+                color: Colors.amber,
+                successColor: Colors.amber,
+                child: Text(
+                    'Tap me i have a huge text, generating an even bigger button',
+                    style: TextStyle(color: Colors.white)),
+                controller: _btnController2,
+                onPressed: () => _doSomething(_btnController2),
+                valueColor: Colors.black,
+                borderRadius: 10,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              TextButton(
+                  child: Text("Reset"),
+                  onPressed: () {
+                    _btnController1.reset();
+                    _btnController2.reset();
+                  }),
+              SizedBox(
+                height: 20,
+              ),
+              TextButton(
+                  child: Text("Error"),
+                  onPressed: () {
+                    _btnController1.error();
+                    _btnController2.error();
+                  }),
+              SizedBox(
+                height: 20,
+              ),
+              TextButton(
+                  child: Text("Success"),
+                  onPressed: () {
+                    _btnController1.success();
+                    _btnController2.success();
+                  })
             ],
           ),
         ));
