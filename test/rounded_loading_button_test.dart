@@ -26,6 +26,7 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
               onPressed: mockOnPressedFunction.handler,
               animateOnTap: false,
               controller: btnController,
@@ -49,6 +50,8 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
@@ -72,6 +75,8 @@ void main() {
           child: Center(
             child: RoundedLoadingButton(
               controller: btnController,
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
             ),
@@ -99,6 +104,8 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
@@ -126,6 +133,8 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
@@ -144,6 +153,8 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),
@@ -166,6 +177,8 @@ void main() {
         child: Material(
           child: Center(
             child: RoundedLoadingButton(
+              color: Colors.blue,
+              onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
               child: Text('Tap me!', style: TextStyle(color: Colors.white)),

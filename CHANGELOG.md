@@ -1,3 +1,6 @@
+## [2.0.2]
+* Fix animation!
+
 ## [2.0.0]
 * Added compatibility with NullSafety
 * Removed RaisedButton deprecated
