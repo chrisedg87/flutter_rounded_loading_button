@@ -1,12 +1,16 @@
-## [2.0.2]
-* Fix animation!
+## [2.0.3]
+* Style effective dart
 
-## [2.0.0]
+## [2.0.2]
+* Thanks for [joaovvrodrigues](https://github.com/joaovvrodrigues) ([#32](https://github.com/chrisedg87/flutter_rounded_loading_button/pull/32) by [joaovvrodrigues](https://github.com/joaovvrodrigues)).
+* Fix button animation!
+
+## [2.0.1]
+* Thanks for [joaovvrodrigues](https://github.com/joaovvrodrigues) ([#32](https://github.com/chrisedg87/flutter_rounded_loading_button/pull/32) by [joaovvrodrigues](https://github.com/joaovvrodrigues)).
 * Added compatibility with NullSafety
 * Removed RaisedButton deprecated
 * Add new ElevatedButton
 * Update dependencies
-* Added Pedantic recommendations, analyzer settings and best practices used internally at Google.
 
 ## [1.0.18]
 * Updated dependencies

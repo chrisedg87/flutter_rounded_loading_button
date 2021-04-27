@@ -32,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
+
   void _doSomething(RoundedLoadingButtonController controller) async {
     Timer(Duration(seconds: 3), () {
       controller.success();
@@ -49,14 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RoundedLoadingButton(
-                color: Colors.green,
-                successColor: Colors.green,
+                child: Text('Tap me!', style: TextStyle(color: Colors.white)),
                 controller: _btnController1,
-                elevation: 10,
                 onPressed: () => _doSomething(_btnController1),
-                height: 50,
-                width: 200,
-                child: Text('Tap me !', style: TextStyle(color: Colors.white)),
               ),
               SizedBox(
                 height: 50,
@@ -68,14 +64,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () => _doSomething(_btnController2),
                 valueColor: Colors.black,
                 borderRadius: 10,
-                child: Text(
-                    'Tap me i have a huge text, generating an even bigger button',
-                    style: TextStyle(color: Colors.white)),
+                child: Text('''
+Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
               ),
               SizedBox(
                 height: 50,
               ),
-              TextButton(
+              OutlinedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30))),
+                  ),
                   onPressed: () {
                     _btnController1.reset();
                     _btnController2.reset();
@@ -84,7 +83,11 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              TextButton(
+              OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
+                ),
                 onPressed: () {
                   _btnController1.error();
                   _btnController2.error();
@@ -94,7 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              TextButton(
+              OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
+                ),
                 onPressed: () {
                   _btnController1.success();
                   _btnController2.success();
