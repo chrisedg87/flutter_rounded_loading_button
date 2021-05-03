@@ -167,6 +167,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             ),
             primary: widget.color,
             elevation: widget.elevation,
+            padding: EdgeInsets.all(0)
           ),
           onPressed: _btnPressed,
           child: childStream,
