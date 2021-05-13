@@ -14,7 +14,7 @@ class RoundedLoadingButton extends StatefulWidget {
 
   /// The callback that is called when
   /// the button is tapped or otherwise activated.
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The button's label
   final Widget child;
@@ -169,7 +169,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
             elevation: widget.elevation,
             padding: EdgeInsets.all(0)
           ),
-          onPressed: _btnPressed,
+          onPressed: widget.onPressed == null ? null : _btnPressed,
           child: childStream,
         ));
 
@@ -213,7 +213,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     _squeezeAnimation.addStatusListener((state) {
       if (state == AnimationStatus.completed && widget.animateOnTap) {
-        widget.onPressed();
+        if (widget.onPressed != null) {
+          widget.onPressed!();
+        }
       }
     });
 
@@ -242,7 +244,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     if (widget.animateOnTap) {
       _start();
     } else {
-      widget.onPressed();
+      if (widget.onPressed != null) {
+        widget.onPressed!();
+      }
     }
   }
 
