@@ -1,3 +1,6 @@
+## [2.0.4]
+* Fixed disabled issue
+
 ## [2.0.3]
 * Style effective dart
 
