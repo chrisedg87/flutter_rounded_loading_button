@@ -264,6 +264,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _state.sink.add(LoadingState.loading);
     _borderController.forward();
     _buttonController.forward();
+    if(widget.resetAfterDuration) _reset();
   }
 
   _stop() {
