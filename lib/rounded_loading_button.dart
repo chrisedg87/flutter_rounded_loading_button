@@ -41,7 +41,7 @@ class RoundedLoadingButton extends StatefulWidget {
   final Color valueColor;
 
   /// reset the animation after specified duration, 
-  /// use resetDuration parameter to set Duration, defaults to 5 seconds
+  /// use resetDuration parameter to set Duration, defaults to 15 seconds
   final bool resetAfterDuration;
 
   /// The curve of the shrink animation
