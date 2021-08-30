@@ -40,6 +40,10 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The color of the static icons
   final Color valueColor;
 
+  /// reset the animation after specified duration, 
+  /// use resetDuration parameter to set Duration, defaults to 15 seconds
+  final bool resetAfterDuration;
+
   /// The curve of the shrink animation
   final Curve curve;
 
@@ -51,6 +55,9 @@ class RoundedLoadingButton extends StatefulWidget {
 
   /// The elevation of the raised button
   final double elevation;
+
+  /// Duration after which reset the button
+  final Duration resetDuration;
 
   /// The color of the button when it is in the error state
   final Color? errorColor;
@@ -84,6 +91,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.curve = Curves.easeInOutCirc,
       this.errorColor = Colors.red,
       this.successColor,
+      this.resetDuration = const Duration(seconds: 15),
+      this.resetAfterDuration = false,
       this.disabledColor});
 
   @override
@@ -255,6 +264,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _state.sink.add(LoadingState.loading);
     _borderController.forward();
     _buttonController.forward();
+    if(widget.resetAfterDuration) _reset();
   }
 
   _stop() {
@@ -273,7 +283,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _checkButtonControler.forward();
   }
 
-  _reset() {
+  _reset() async {
+    if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
     _state.sink.add(LoadingState.idle);
     _buttonController.reverse();
     _borderController.reverse();
