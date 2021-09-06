@@ -93,7 +93,7 @@ class RoundedLoadingButton extends StatefulWidget {
       this.successColor,
       this.resetDuration = const Duration(seconds: 15),
       this.resetAfterDuration = false,
-      this.disabledColor});
+      this.disabledColor}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
