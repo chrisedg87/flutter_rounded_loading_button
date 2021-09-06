@@ -1,3 +1,7 @@
+## [2.0.6]
+* Fixed bug with state key
+* Added the auto reset functionality 
+
 ## [2.0.5]
 * Fixed disabled colour issue
 
