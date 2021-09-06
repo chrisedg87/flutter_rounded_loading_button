@@ -38,7 +38,17 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
         controller: _btnController,
         onPressed: _doSomething,
     )
-    
+
+The Rounded Loading Button has many configurable properties, including:
+
+* `duration` - The duration of the button animation
+* `loaderSize` - The size of the CircularProgressIndicator
+* `animateOnTap` -  Whether to trigger the loading animation on the tap event
+* `resetAfterDuration` - Reset the animation after specified duration, defaults to 15 seconds
+* `errorColor` - The color of the button when it is in the error state
+* `successColor` - The color of the button when it is in the success state
+
+
 ## Contributions
 
    All contributions are welcome!
