@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/chrisedg87/flutter_rounded_loading_button/branch/master/graph/badge.svg?token=3HQDMRP8N2)](https://codecov.io/gh/chrisedg87/flutter_rounded_loading_button)
 [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Awesome Flutter](https://img.shields.io/badge/Awesome-Flutter-blue.svg)](https://github.com/Solido/awesome-flutter)
 
 RoundedLoadingButton is a Flutter package with a simple implementation of an animated loading button, complete with success and error animations.
 
