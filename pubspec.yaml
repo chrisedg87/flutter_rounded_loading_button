@@ -1,6 +1,6 @@
 name: rounded_loading_button
 description: A simple implementation of an animated loading button widget for Flutter
-version: 2.0.6
+version: 2.0.7
 homepage: https://github.com/chrisedg87/flutter_rounded_loading_button
 
 environment:

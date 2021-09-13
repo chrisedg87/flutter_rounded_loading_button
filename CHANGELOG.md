@@ -1,3 +1,7 @@
+## [2.0.7]
+* Updated rxdart constraints 
+* Updated the screenshot
+
 ## [2.0.6]
 * Fixed bug with state key
 * Added the auto reset functionality 
