@@ -68,6 +68,18 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The color of the button when it is disabled
   final Color? disabledColor;
 
+  /// The icon for the success state
+  final IconData successIcon;
+
+  /// The icon for the failed state
+  final IconData failedIcon;
+
+  /// The success and failed animation curve
+  final Curve completionCurve;
+
+  /// The duration of the success and failed animation
+  final Duration completionDuration;
+
   Duration get _borderDuration {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
   }
@@ -93,6 +105,10 @@ class RoundedLoadingButton extends StatefulWidget {
       this.successColor,
       this.resetDuration = const Duration(seconds: 15),
       this.resetAfterDuration = false,
+      this.successIcon = Icons.check,
+      this.failedIcon = Icons.close,
+      this.completionCurve = Curves.elasticOut,
+      this.completionDuration = const Duration(milliseconds: 1000),
       this.disabledColor}) : super(key: key);
 
   @override
@@ -127,7 +143,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         height: _bounceAnimation.value,
         child: _bounceAnimation.value > 20
             ? Icon(
-                Icons.check,
+                widget.successIcon,
                 color: widget.valueColor,
               )
             : null);
@@ -143,7 +159,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         height: _bounceAnimation.value,
         child: _bounceAnimation.value > 20
             ? Icon(
-                Icons.close,
+                widget.failedIcon,
                 color: widget.valueColor,
               )
             : null);
@@ -168,6 +184,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     final _btn = ButtonTheme(
         shape: RoundedRectangleBorder(borderRadius: _borderAnimation.value),
         disabledColor: widget.disabledColor,
+        padding: EdgeInsets.all(0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             onSurface: widget.disabledColor,
@@ -201,14 +218,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         AnimationController(duration: widget.duration, vsync: this);
 
     _checkButtonControler = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
+        duration: widget.completionDuration, vsync: this);
 
     _borderController =
         AnimationController(duration: widget._borderDuration, vsync: this);
 
     _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
         CurvedAnimation(
-            parent: _checkButtonControler, curve: Curves.elasticOut));
+            parent: _checkButtonControler, curve: widget.completionCurve));
     _bounceAnimation.addListener(() {
       setState(() {});
     });

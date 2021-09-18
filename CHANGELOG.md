@@ -1,3 +1,7 @@
+## [2.0.8]
+* Added success and error icons parameters
+* Added completion curve and duration parameters
+
 ## [2.0.7]
 * Updated rxdart constraints 
 * Updated the screenshot

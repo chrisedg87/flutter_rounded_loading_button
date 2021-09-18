@@ -50,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RoundedLoadingButton(
+                successIcon: Icons.cloud,
+                failedIcon: Icons.cottage,
                 child: Text('Tap me!', style: TextStyle(color: Colors.white)),
                 controller: _btnController1,
                 onPressed: () => _doSomething(_btnController1),

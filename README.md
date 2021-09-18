@@ -16,7 +16,7 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
    Add this to your pubspec.yaml:
     
     dependencies:
-        rounded_loading_button: ^2.0.6
+        rounded_loading_button: ^2.0.8
 
 ## Usage
 
@@ -48,6 +48,8 @@ The Rounded Loading Button has many configurable properties, including:
 * `resetAfterDuration` - Reset the animation after specified duration, defaults to 15 seconds
 * `errorColor` - The color of the button when it is in the error state
 * `successColor` - The color of the button when it is in the success state
+* `successIcon` - The icon for the success state
+* `failedIcon` - The icon for the failed state
 
 
 ## Contributions
