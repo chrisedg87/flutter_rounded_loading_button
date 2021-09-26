@@ -1,3 +1,6 @@
+## [2.0.9]
+* Added ability to listen to and query button status from the controller
+
 ## [2.0.8]
 * Added success and error icons parameters
 * Added completion curve and duration parameters
