@@ -34,8 +34,17 @@ class _MyHomePageState extends State<MyHomePage> {
       RoundedLoadingButtonController();
 
   void _doSomething(RoundedLoadingButtonController controller) async {
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 10), () {
       controller.success();
+    });
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    _btnController1.stateStream.listen((value) {
+      print(value);
+
     });
   }
 
@@ -105,8 +114,10 @@ Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
                       borderRadius: BorderRadius.circular(30))),
                 ),
                 onPressed: () {
-                  _btnController1.success();
-                  _btnController2.success();
+                  // _btnController1.success();
+                  // _btnController2.success();
+                  // _btnController1
+                  print(_btnController1.currentState);
                 },
                 child: Text('Success'),
               )

@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 /// States that your button can assume via the controller
 // ignore: public_member_api_docs
-enum LoadingState { idle, loading, success, error }
+enum ButtonState { idle, loading, success, error }
 
 /// Initalize class
 class RoundedLoadingButton extends StatefulWidget {
@@ -40,7 +40,7 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The color of the static icons
   final Color valueColor;
 
-  /// reset the animation after specified duration, 
+  /// reset the animation after specified duration,
   /// use resetDuration parameter to set Duration, defaults to 15 seconds
   final bool resetAfterDuration;
 
@@ -109,7 +109,8 @@ class RoundedLoadingButton extends StatefulWidget {
       this.failedIcon = Icons.close,
       this.completionCurve = Curves.elasticOut,
       this.completionDuration = const Duration(milliseconds: 1000),
-      this.disabledColor}) : super(key: key);
+      this.disabledColor})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -126,7 +127,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   late Animation _bounceAnimation;
   late Animation _borderAnimation;
 
-  final _state = BehaviorSubject<LoadingState>.seeded(LoadingState.idle);
+  final _state = BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +178,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
         return AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
             child:
-                snapshot.data == LoadingState.loading ? _loader : widget.child);
+                snapshot.data == ButtonState.loading ? _loader : widget.child);
       },
     );
 
@@ -203,9 +204,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     return Container(
         height: widget.height,
         child: Center(
-            child: _state.value == LoadingState.error
+            child: _state.value == ButtonState.error
                 ? _cross
-                : _state.value == LoadingState.success
+                : _state.value == ButtonState.success
                     ? _check
                     : _btn));
   }
@@ -217,8 +218,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _buttonController =
         AnimationController(duration: widget.duration, vsync: this);
 
-    _checkButtonControler = AnimationController(
-        duration: widget.completionDuration, vsync: this);
+    _checkButtonControler =
+        AnimationController(duration: widget.completionDuration, vsync: this);
 
     _borderController =
         AnimationController(duration: widget._borderDuration, vsync: this);
@@ -255,6 +256,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       setState(() {});
     });
 
+    // There is probably a better way of doing this...
+    _state.stream.listen((event) {
+      widget.controller._state.sink.add(event);
+    });
+
     widget.controller._addListeners(_start, _stop, _success, _error, _reset);
   }
 
@@ -278,31 +284,31 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   }
 
   _start() {
-    _state.sink.add(LoadingState.loading);
+    _state.sink.add(ButtonState.loading);
     _borderController.forward();
     _buttonController.forward();
-    if(widget.resetAfterDuration) _reset();
+    if (widget.resetAfterDuration) _reset();
   }
 
   _stop() {
-    _state.sink.add(LoadingState.idle);
+    _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
   }
 
   _success() {
-    _state.sink.add(LoadingState.success);
+    _state.sink.add(ButtonState.success);
     _checkButtonControler.forward();
   }
 
   _error() {
-    _state.sink.add(LoadingState.error);
+    _state.sink.add(ButtonState.error);
     _checkButtonControler.forward();
   }
 
   _reset() async {
     if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
-    _state.sink.add(LoadingState.idle);
+    _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
     _checkButtonControler.reset();
@@ -330,6 +336,15 @@ class RoundedLoadingButtonController {
     _errorListener = errorListener;
     _resetListener = resetListener;
   }
+
+  final BehaviorSubject<ButtonState> _state =
+    BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
+    
+  /// A read-only stream of the button state
+  Stream<ButtonState> get stateStream => _state.stream;
+
+  /// Gets the current state
+  ButtonState? get currentState => _state.value;
 
   /// Notify listeners to start the loading animation
   void start() {
