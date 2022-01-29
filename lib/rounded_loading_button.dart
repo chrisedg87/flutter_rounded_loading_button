@@ -307,7 +307,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   }
 
   _reset() async {
-    if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
+    if (widget.resetAfterDuration) {
+      await Future.delayed(widget.resetDuration);
+      if (!mounted) return; // if widget is disposed, do nothing
+    }
     _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
