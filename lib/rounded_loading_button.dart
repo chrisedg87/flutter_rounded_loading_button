@@ -258,6 +258,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     // There is probably a better way of doing this...
     _state.stream.listen((event) {
+      if (!mounted) return;
       widget.controller._state.sink.add(event);
     });
 
@@ -273,7 +274,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     super.dispose();
   }
 
-  _btnPressed() async {
+  void _btnPressed() async {
     if (widget.animateOnTap) {
       _start();
     } else {
@@ -283,31 +284,36 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     }
   }
 
-  _start() {
+  void _start() {
+    if (!mounted) return;
     _state.sink.add(ButtonState.loading);
     _borderController.forward();
     _buttonController.forward();
     if (widget.resetAfterDuration) _reset();
   }
 
-  _stop() {
+  void _stop() {
+    if (!mounted) return;
     _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
   }
 
-  _success() {
+  void _success() {
+    if (!mounted) return;
     _state.sink.add(ButtonState.success);
     _checkButtonControler.forward();
   }
 
-  _error() {
+  void _error() {
+    if (!mounted) return;
     _state.sink.add(ButtonState.error);
     _checkButtonControler.forward();
   }
 
-  _reset() async {
+  void _reset() async {
     if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
+    if (!mounted) return;
     _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
@@ -318,18 +324,19 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 /// Options that can be chosen by the controller
 /// each will perform a unique animation
 class RoundedLoadingButtonController {
-  late VoidCallback _startListener;
-  late VoidCallback _stopListener;
-  late VoidCallback _successListener;
-  late VoidCallback _errorListener;
-  late VoidCallback _resetListener;
+  VoidCallback? _startListener;
+  VoidCallback? _stopListener;
+  VoidCallback? _successListener;
+  VoidCallback? _errorListener;
+  VoidCallback? _resetListener;
 
-  _addListeners(
-      VoidCallback startListener,
-      VoidCallback stopListener,
-      VoidCallback successListener,
-      VoidCallback errorListener,
-      VoidCallback resetListener) {
+  void _addListeners(
+    VoidCallback startListener,
+    VoidCallback stopListener,
+    VoidCallback successListener,
+    VoidCallback errorListener,
+    VoidCallback resetListener,
+  ) {
     _startListener = startListener;
     _stopListener = stopListener;
     _successListener = successListener;
@@ -338,8 +345,8 @@ class RoundedLoadingButtonController {
   }
 
   final BehaviorSubject<ButtonState> _state =
-    BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
-    
+      BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
+
   /// A read-only stream of the button state
   Stream<ButtonState> get stateStream => _state.stream;
 
@@ -348,26 +355,26 @@ class RoundedLoadingButtonController {
 
   /// Notify listeners to start the loading animation
   void start() {
-    _startListener();
+    if (_startListener != null) _startListener!();
   }
 
   /// Notify listeners to start the stop animation
   void stop() {
-    _stopListener();
+    if (_stopListener != null) _stopListener!();
   }
 
   /// Notify listeners to start the sucess animation
   void success() {
-    _successListener();
+    if (_successListener != null) _successListener!();
   }
 
   /// Notify listeners to start the error animation
   void error() {
-    _errorListener();
+    if (_errorListener != null) _errorListener!();
   }
 
   /// Notify listeners to start the reset animation
   void reset() {
-    _resetListener();
+    if (_resetListener != null) _resetListener!();
   }
 }
