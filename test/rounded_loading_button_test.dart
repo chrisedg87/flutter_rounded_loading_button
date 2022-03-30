@@ -17,10 +17,12 @@ void main() {
     mockOnPressedFunction = MockOnPressedFunction();
   });
 
-  testWidgets('should call tap function', (tester) async {
-    final btnController = RoundedLoadingButtonController();
+  testWidgets('should call tap function', (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -30,10 +32,15 @@ void main() {
               animateOnTap: false,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                'Tap me!',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     await tester.tap(find.byType(RoundedLoadingButton));
 
@@ -41,10 +48,12 @@ void main() {
   });
 
   testWidgets('should show progress indicator when in loading state',
-      (tester) async {
-    final btnController = RoundedLoadingButtonController();
+      (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -53,10 +62,13 @@ void main() {
               onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Tap me!', style: TextStyle(color: Colors.white)),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     btnController.start();
 
@@ -65,10 +77,12 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('should stop and return to default', (tester) async {
-    final btnController = RoundedLoadingButtonController();
+  testWidgets('should stop and return to default', (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -77,10 +91,13 @@ void main() {
               color: Colors.blue,
               onPressed: mockOnPressedFunction.handler,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Tap me!', style: TextStyle(color: Colors.white)),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     btnController.start();
 
@@ -95,10 +112,12 @@ void main() {
     expect(find.text('Tap me!'), findsOneWidget);
   });
 
-  testWidgets('should reset to default state', (tester) async {
-    final btnController = RoundedLoadingButtonController();
+  testWidgets('should reset to default state', (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -107,10 +126,13 @@ void main() {
               onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Tap me!', style: TextStyle(color: Colors.white)),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     btnController.success();
 
@@ -124,10 +146,12 @@ void main() {
   });
 
   testWidgets('should not show progress indicator when in idle state',
-      (tester) async {
-    final btnController = RoundedLoadingButtonController();
+      (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -136,18 +160,26 @@ void main() {
               onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                'Tap me!',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
-  testWidgets('should show icon when in success state', (tester) async {
-    final btnController = RoundedLoadingButtonController();
+  testWidgets('should show icon when in success state',
+      (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -156,10 +188,15 @@ void main() {
               onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                'Tap me!',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     btnController.success();
 
@@ -168,10 +205,13 @@ void main() {
     expect(find.byIcon(Icons.check), findsOneWidget);
   });
 
-  testWidgets('should show icon when in error state', (tester) async {
-    final btnController = RoundedLoadingButtonController();
+  testWidgets('should show icon when in error state',
+      (WidgetTester tester) async {
+    final RoundedLoadingButtonController btnController =
+        RoundedLoadingButtonController();
 
-    await tester.pumpWidget(Directionality(
+    await tester.pumpWidget(
+      Directionality(
         textDirection: TextDirection.ltr,
         child: Material(
           child: Center(
@@ -180,10 +220,13 @@ void main() {
               onPressed: mockOnPressedFunction.handler,
               controller: btnController,
               width: 200,
-              child: Text('Tap me!', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Tap me!', style: TextStyle(color: Colors.white)),
             ),
           ),
-        )));
+        ),
+      ),
+    );
 
     btnController.error();
 
