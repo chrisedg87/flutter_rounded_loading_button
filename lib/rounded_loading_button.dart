@@ -125,26 +125,27 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   late AnimationController _borderController;
   late AnimationController _checkButtonControler;
 
-  late Animation _squeezeAnimation;
-  late Animation _bounceAnimation;
-  late Animation _borderAnimation;
+  late Animation<dynamic> _squeezeAnimation;
+  late Animation<dynamic> _bounceAnimation;
+  late Animation<dynamic> _borderAnimation;
 
-  final _state = BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
+  final BehaviorSubject<ButtonState> _state =
+      BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
-    Widget _check = Container(
+    final Widget check = Container(
       alignment: FractionalOffset.center,
       decoration: BoxDecoration(
         color: widget.successColor ?? theme.primaryColor,
-        borderRadius:
-            BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+        borderRadius: BorderRadius.all(
+            Radius.circular((_bounceAnimation.value as double) / 2)),
       ),
-      width: _bounceAnimation.value,
-      height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
+      width: _bounceAnimation.value as double?,
+      height: _bounceAnimation.value as double?,
+      child: _bounceAnimation.value as double > 20
           ? Icon(
               widget.successIcon,
               color: widget.valueColor,
@@ -152,16 +153,16 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           : null,
     );
 
-    Widget _cross = Container(
+    final Widget cross = Container(
       alignment: FractionalOffset.center,
       decoration: BoxDecoration(
         color: widget.errorColor,
-        borderRadius:
-            BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+        borderRadius: BorderRadius.all(
+            Radius.circular((_bounceAnimation.value as double) / 2)),
       ),
-      width: _bounceAnimation.value,
-      height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
+      width: _bounceAnimation.value as double?,
+      height: _bounceAnimation.value as double?,
+      child: _bounceAnimation.value as double > 20
           ? Icon(
               widget.failedIcon,
               color: widget.valueColor,
@@ -169,7 +170,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           : null,
     );
 
-    Widget _loader = SizedBox(
+    final Widget loader = SizedBox(
       height: widget.loaderSize,
       width: widget.loaderSize,
       child: CircularProgressIndicator(
@@ -178,32 +179,34 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       ),
     );
 
-    Widget childStream = StreamBuilder(
+    final Widget childStream = StreamBuilder<ButtonState>(
       stream: _state,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
-          child: snapshot.data == ButtonState.loading ? _loader : widget.child,
+          child: snapshot.data == ButtonState.loading ? loader : widget.child,
         );
       },
     );
 
-    final _btn = ButtonTheme(
-      shape: RoundedRectangleBorder(borderRadius: _borderAnimation.value),
+    final ButtonTheme btn = ButtonTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: _borderAnimation.value as BorderRadiusGeometry,
+      ),
       disabledColor: widget.disabledColor,
-      padding: const EdgeInsets.all(0),
+      padding: EdgeInsets.zero,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onSurface: widget.disabledColor,
-          minimumSize: Size(_squeezeAnimation.value, widget.height),
+          minimumSize: Size(_squeezeAnimation.value as double, widget.height),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
           primary: widget.color,
           elevation: widget.elevation,
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.zero,
         ),
-        onPressed: widget.onPressed == null ? null : _btnPressed,
+        onPressed: widget.onPressed ?? _btnPressed,
         child: childStream,
       ),
     );
@@ -212,10 +215,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       height: widget.height,
       child: Center(
         child: _state.value == ButtonState.error
-            ? _cross
+            ? cross
             : _state.value == ButtonState.success
-                ? _check
-                : _btn,
+                ? check
+                : btn,
       ),
     );
   }
@@ -252,7 +255,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       setState(() {});
     });
 
-    _squeezeAnimation.addStatusListener((state) {
+    _squeezeAnimation.addStatusListener((AnimationStatus state) {
       if (state == AnimationStatus.completed && widget.animateOnTap) {
         if (widget.onPressed != null) {
           widget.onPressed!();
@@ -270,8 +273,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     });
 
     // There is probably a better way of doing this...
-    _state.stream.listen((event) {
-      if (!mounted) return;
+    _state.stream.listen((ButtonState event) {
+      if (!mounted) {
+        return;
+      }
       widget.controller._state.sink.add(event);
     });
 
@@ -287,7 +292,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     super.dispose();
   }
 
-  void _btnPressed() async {
+  Future<void> _btnPressed() async {
     if (widget.animateOnTap) {
       _start();
     } else {
@@ -298,35 +303,49 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   }
 
   void _start() {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     _state.sink.add(ButtonState.loading);
     _borderController.forward();
     _buttonController.forward();
-    if (widget.resetAfterDuration) _reset();
+    if (widget.resetAfterDuration) {
+      _reset();
+    }
   }
 
   void _stop() {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     _state.sink.add(ButtonState.idle);
     _buttonController.reverse();
     _borderController.reverse();
   }
 
   void _success() {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     _state.sink.add(ButtonState.success);
     _checkButtonControler.forward();
   }
 
   void _error() {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     _state.sink.add(ButtonState.error);
     _checkButtonControler.forward();
   }
 
-  void _reset() async {
-    if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
-    if (!mounted) return;
+  Future<void> _reset() async {
+    if (widget.resetAfterDuration) {
+      await Future<void>.delayed(widget.resetDuration);
+    }
+    if (!mounted) {
+      return;
+    }
     _state.sink.add(ButtonState.idle);
     unawaited(_buttonController.reverse());
     unawaited(_borderController.reverse());
@@ -368,26 +387,36 @@ class RoundedLoadingButtonController {
 
   /// Notify listeners to start the loading animation
   void start() {
-    if (_startListener != null) _startListener!();
+    if (_startListener != null) {
+      _startListener!();
+    }
   }
 
   /// Notify listeners to start the stop animation
   void stop() {
-    if (_stopListener != null) _stopListener!();
+    if (_stopListener != null) {
+      _stopListener!();
+    }
   }
 
   /// Notify listeners to start the sucess animation
   void success() {
-    if (_successListener != null) _successListener!();
+    if (_successListener != null) {
+      _successListener!();
+    }
   }
 
   /// Notify listeners to start the error animation
   void error() {
-    if (_errorListener != null) _errorListener!();
+    if (_errorListener != null) {
+      _errorListener!();
+    }
   }
 
   /// Notify listeners to start the reset animation
   void reset() {
-    if (_resetListener != null) _resetListener!();
+    if (_resetListener != null) {
+      _resetListener!();
+    }
   }
 }
