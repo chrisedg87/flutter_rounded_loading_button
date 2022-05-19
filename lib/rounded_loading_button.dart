@@ -81,6 +81,15 @@ class RoundedLoadingButton extends StatefulWidget {
 
   /// The duration of the success and failed animation
   final Duration completionDuration;
+  
+  /// The width or border
+  final double? borderWidth;
+
+  /// The color of border
+  final Color? borderColor;
+
+  /// The color of loading indicator
+  final Color? loadingIndicatorColor;
 
   Duration get _borderDuration {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
@@ -112,6 +121,9 @@ class RoundedLoadingButton extends StatefulWidget {
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
+    this.borderColor,
+    this.borderWidth,
+    this.loadingIndicatorColor,
   }) : super(key: key);
 
   @override
@@ -140,7 +152,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       decoration: BoxDecoration(
         color: widget.successColor ?? theme.primaryColor,
         borderRadius:
-            BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+            BorderRadius.all(Radius.circular(widget.borderRadius)),
       ),
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
@@ -157,7 +169,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       decoration: BoxDecoration(
         color: widget.errorColor,
         borderRadius:
-            BorderRadius.all(Radius.circular(_bounceAnimation.value / 2)),
+            BorderRadius.all(Radius.circular(widget.borderRadius)),
       ),
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
@@ -173,7 +185,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       height: widget.loaderSize,
       width: widget.loaderSize,
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
+        valueColor: AlwaysStoppedAnimation<Color>(
+          widget.loadingIndicatorColor ?? widget.valueColor),
         strokeWidth: widget.loaderStrokeWidth,
       ),
     );
@@ -199,6 +212,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
+          side: (widget.borderWidth != null && widget.borderColor != null)
+              ? BorderSide(width: widget.borderWidth!, color: widget.borderColor!)
+              : null,
           primary: widget.color,
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
