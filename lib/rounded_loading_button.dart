@@ -33,6 +33,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The size of the CircularProgressIndicator
   final double loaderSize;
 
+  /// The loader text is to update the text inside the loader
+  String? loaderText;
+
   /// The stroke width of the CircularProgressIndicator
   final double loaderStrokeWidth;
 
@@ -87,7 +90,7 @@ class RoundedLoadingButton extends StatefulWidget {
   }
 
   /// initalize constructor
-  const RoundedLoadingButton({
+  RoundedLoadingButton({
     Key? key,
     required this.controller,
     required this.onPressed,
@@ -95,7 +98,8 @@ class RoundedLoadingButton extends StatefulWidget {
     this.color = Colors.lightBlue,
     this.height = 50,
     this.width = 300,
-    this.loaderSize = 24.0,
+    this.loaderText,
+    this.loaderSize = 35.0,
     this.loaderStrokeWidth = 2.0,
     this.animateOnTap = true,
     this.valueColor = Colors.white,
@@ -172,9 +176,22 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     Widget _loader = SizedBox(
       height: widget.loaderSize,
       width: widget.loaderSize,
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
-        strokeWidth: widget.loaderStrokeWidth,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(
+            height: widget.loaderSize,
+            width: widget.loaderSize,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
+              strokeWidth: widget.loaderStrokeWidth,
+            ),
+          ),
+          Text(
+            widget.loaderText ?? "",
+            style: TextStyle(color: widget.valueColor, fontSize: 10),
+          )
+        ],
       ),
     );
 
@@ -275,7 +292,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       widget.controller._state.sink.add(event);
     });
 
-    widget.controller._addListeners(_start, _stop, _success, _error, _reset);
+    widget.controller
+        ._addListeners(_start, _stop, _success, _error, _reset, _progress);
   }
 
   @override
@@ -302,6 +320,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _state.sink.add(ButtonState.loading);
     _borderController.forward();
     _buttonController.forward();
+    if (widget.resetAfterDuration) _reset();
+  }
+
+  void _progress(int progress) {
+    if (!mounted) return;
+    widget.loaderText = "$progress%";
+    setState(() {});
+    _state.sink.add(ButtonState.loading);
     if (widget.resetAfterDuration) _reset();
   }
 
@@ -342,6 +368,7 @@ class RoundedLoadingButtonController {
   VoidCallback? _successListener;
   VoidCallback? _errorListener;
   VoidCallback? _resetListener;
+  UpdateProgressDef? _updateProgress;
 
   void _addListeners(
     VoidCallback startListener,
@@ -349,12 +376,14 @@ class RoundedLoadingButtonController {
     VoidCallback successListener,
     VoidCallback errorListener,
     VoidCallback resetListener,
+    UpdateProgressDef? updateProgress,
   ) {
     _startListener = startListener;
     _stopListener = stopListener;
     _successListener = successListener;
     _errorListener = errorListener;
     _resetListener = resetListener;
+    _updateProgress = updateProgress;
   }
 
   final BehaviorSubject<ButtonState> _state =
@@ -369,6 +398,10 @@ class RoundedLoadingButtonController {
   /// Notify listeners to start the loading animation
   void start() {
     if (_startListener != null) _startListener!();
+  }
+
+  void update(int progress) {
+    if (_updateProgress != null) _updateProgress!(progress);
   }
 
   /// Notify listeners to start the stop animation
@@ -391,3 +424,5 @@ class RoundedLoadingButtonController {
     if (_resetListener != null) _resetListener!();
   }
 }
+
+typedef UpdateProgressDef(int value);
