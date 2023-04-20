@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 // ignore: public_member_api_docs
 enum ButtonState { idle, loading, success, error }
 
-/// Initalize class
+/// Initialize class
 class RoundedLoadingButton extends StatefulWidget {
   /// Button controller, now required
   final RoundedLoadingButtonController controller;
@@ -27,7 +27,7 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The vertical extent of the button.
   final double height;
 
-  /// The horiztonal extent of the button.
+  /// The horizontal extent of the button.
   final double width;
 
   /// The size of the CircularProgressIndicator
@@ -86,7 +86,7 @@ class RoundedLoadingButton extends StatefulWidget {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
   }
 
-  /// initalize constructor
+  /// initialize constructor
   const RoundedLoadingButton({
     Key? key,
     required this.controller,
@@ -123,7 +123,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     with TickerProviderStateMixin {
   late AnimationController _buttonController;
   late AnimationController _borderController;
-  late AnimationController _checkButtonControler;
+  late AnimationController _checkButtonController;
 
   late Animation _squeezeAnimation;
   late Animation _bounceAnimation;
@@ -227,7 +227,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _buttonController =
         AnimationController(duration: widget.duration, vsync: this);
 
-    _checkButtonControler =
+    _checkButtonController =
         AnimationController(duration: widget.completionDuration, vsync: this);
 
     _borderController =
@@ -235,7 +235,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
     _bounceAnimation = Tween<double>(begin: 0, end: widget.height).animate(
       CurvedAnimation(
-        parent: _checkButtonControler,
+        parent: _checkButtonController,
         curve: widget.completionCurve,
       ),
     );
@@ -281,7 +281,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   @override
   void dispose() {
     _buttonController.dispose();
-    _checkButtonControler.dispose();
+    _checkButtonController.dispose();
     _borderController.dispose();
     _state.close();
     super.dispose();
@@ -315,13 +315,13 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   void _success() {
     if (!mounted) return;
     _state.sink.add(ButtonState.success);
-    _checkButtonControler.forward();
+    _checkButtonController.forward();
   }
 
   void _error() {
     if (!mounted) return;
     _state.sink.add(ButtonState.error);
-    _checkButtonControler.forward();
+    _checkButtonController.forward();
   }
 
   void _reset() async {
@@ -330,7 +330,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _state.sink.add(ButtonState.idle);
     unawaited(_buttonController.reverse());
     unawaited(_borderController.reverse());
-    _checkButtonControler.reset();
+    _checkButtonController.reset();
   }
 }
 
@@ -376,7 +376,7 @@ class RoundedLoadingButtonController {
     if (_stopListener != null) _stopListener!();
   }
 
-  /// Notify listeners to start the sucess animation
+  /// Notify listeners to start the success animation
   void success() {
     if (_successListener != null) _successListener!();
   }
