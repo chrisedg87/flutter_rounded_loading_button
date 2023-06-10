@@ -16,7 +16,7 @@ RoundedLoadingButton is a Flutter package with a simple implementation of an ani
    Add this to your pubspec.yaml:
     
     dependencies:
-        rounded_loading_button: ^2.0.8
+        rounded_loading_button: ^2.2.0
 
 ## Usage
 
