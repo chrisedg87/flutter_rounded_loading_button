@@ -3,5 +3,6 @@
   "[dart]": {
     "editor.rulers": [80],
     "editor.tabSize": 4
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "automatic"
 }
