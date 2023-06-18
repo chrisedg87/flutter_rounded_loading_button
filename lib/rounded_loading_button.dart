@@ -194,12 +194,12 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       padding: const EdgeInsets.all(0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onSurface: widget.disabledColor,
+          backgroundColor: widget.color,
+          disabledBackgroundColor: widget.disabledColor,
           minimumSize: Size(_squeezeAnimation.value, widget.height),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          primary: widget.color,
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
         ),
@@ -325,8 +325,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   }
 
   void _reset() async {
-    if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
     if (!mounted) return;
+    if (widget.resetAfterDuration) await Future.delayed(widget.resetDuration);
     _state.sink.add(ButtonState.idle);
     unawaited(_buttonController.reverse());
     unawaited(_borderController.reverse());
