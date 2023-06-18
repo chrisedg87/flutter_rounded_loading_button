@@ -40,7 +40,7 @@ class RoundedLoadingButton extends StatefulWidget {
   final bool animateOnTap;
 
   /// The color of the static icons
-  final Color valueColor;
+  final Color iconsColor;
 
   /// reset the animation after specified duration,
   /// use resetDuration parameter to set Duration, defaults to 15 seconds
@@ -71,10 +71,10 @@ class RoundedLoadingButton extends StatefulWidget {
   final Color? disabledColor;
 
   /// The icon for the success state
-  final IconData successIcon;
+  final Icon? successIcon;
 
   /// The icon for the failed state
-  final IconData failedIcon;
+  final Icon? failedIcon;
 
   /// The success and failed animation curve
   final Curve completionCurve;
@@ -98,7 +98,7 @@ class RoundedLoadingButton extends StatefulWidget {
     this.loaderSize = 24.0,
     this.loaderStrokeWidth = 2.0,
     this.animateOnTap = true,
-    this.valueColor = Colors.white,
+    this.iconsColor = Colors.white,
     this.borderRadius = 35,
     this.elevation = 2,
     this.duration = const Duration(milliseconds: 500),
@@ -107,8 +107,8 @@ class RoundedLoadingButton extends StatefulWidget {
     this.successColor,
     this.resetDuration = const Duration(seconds: 15),
     this.resetAfterDuration = false,
-    this.successIcon = Icons.check,
-    this.failedIcon = Icons.close,
+    this.successIcon,
+    this.failedIcon,
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
@@ -145,10 +145,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
       child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.successIcon,
-              color: widget.valueColor,
-            )
+          ? widget.successIcon ??
+              Icon(
+                Icons.check,
+                color: widget.iconsColor,
+              )
           : null,
     );
 
@@ -162,10 +163,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
       child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.failedIcon,
-              color: widget.valueColor,
-            )
+          ? widget.successIcon ??
+              Icon(
+                Icons.close,
+                color: widget.iconsColor,
+              )
           : null,
     );
 
@@ -173,7 +175,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       height: widget.loaderSize,
       width: widget.loaderSize,
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(widget.valueColor),
+        valueColor: AlwaysStoppedAnimation<Color>(widget.iconsColor),
         strokeWidth: widget.loaderStrokeWidth,
       ),
     );
