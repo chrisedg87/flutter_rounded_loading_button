@@ -71,10 +71,13 @@ class RoundedLoadingButton extends StatefulWidget {
   final Color? disabledColor;
 
   /// The icon for the success state
-  final Icon? successIcon;
+  final IconData successIcon;
 
   /// The icon for the failed state
-  final Icon? failedIcon;
+  final IconData failedIcon;
+
+  /// The icon size
+  final double? iconSize;
 
   /// The success and failed animation curve
   final Curve completionCurve;
@@ -107,8 +110,9 @@ class RoundedLoadingButton extends StatefulWidget {
     this.successColor,
     this.resetDuration = const Duration(seconds: 15),
     this.resetAfterDuration = false,
-    this.successIcon,
-    this.failedIcon,
+    this.successIcon = Icons.check,
+    this.failedIcon = Icons.close,
+    this.iconSize,
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
@@ -145,11 +149,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
       child: _bounceAnimation.value > 20
-          ? widget.successIcon ??
-              Icon(
-                Icons.check,
-                color: widget.iconsColor,
-              )
+          ? Icon(
+              widget.successIcon,
+              color: widget.iconsColor,
+              size: widget.iconSize,
+            )
           : null,
     );
 
@@ -163,11 +167,11 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
       child: _bounceAnimation.value > 20
-          ? widget.successIcon ??
-              Icon(
-                Icons.close,
-                color: widget.iconsColor,
-              )
+          ? Icon(
+              widget.failedIcon,
+              color: widget.iconsColor,
+              size: widget.iconSize,
+            )
           : null,
     );
 

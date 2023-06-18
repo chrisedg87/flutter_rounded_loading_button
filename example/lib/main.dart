@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
       RoundedLoadingButtonController();
 
   void _doSomething(RoundedLoadingButtonController controller) async {
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 3), () {
       controller.success();
     });
   }
