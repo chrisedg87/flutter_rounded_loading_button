@@ -19,10 +19,11 @@ class Loader extends StatelessWidget {
     return SizedBox(
       height: loaderSize,
       width: loaderSize,
-      child: progressIndicator ?? CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(iconsColor),
-        strokeWidth: loaderStrokeWidth,
-      ),
+      child: progressIndicator ??
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(iconsColor),
+            strokeWidth: loaderStrokeWidth,
+          ),
     );
   }
 }

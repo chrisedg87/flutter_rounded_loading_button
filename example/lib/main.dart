@@ -94,7 +94,7 @@ Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
                     Text("I'm outlined", style: TextStyle(color: Colors.black)),
                 elevation: 0,
                 resetAfterDuration: true,
-                resetDuration: Duration(seconds:5),
+                resetDuration: Duration(seconds: 5),
               ),
               SizedBox(
                 height: 50,

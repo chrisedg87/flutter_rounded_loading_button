@@ -3,7 +3,8 @@ library rounded_loading_button;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rounded_loading_button/src/button_state.dart';
+import '/src/button_state.dart';
+import '/src/result_container.dart';
 import '/src/loader.dart';
 import '/src/rounded_loading_button_controller.dart';
 import 'package:rxdart/rxdart.dart';
@@ -61,7 +62,7 @@ class RoundedLoadingButton extends StatefulWidget {
   final Duration resetDuration;
 
   /// The color of the button when it is in the error state
-  final Color? errorColor;
+  final Color errorColor;
 
   /// The color of the button when it is in the success state
   final Color? successColor;
@@ -144,58 +145,31 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   @override
   Widget build(BuildContext context) {
-    Widget _check = Container(
-      alignment: FractionalOffset.center,
-      decoration: BoxDecoration(
-        color: widget.successColor ?? widget.color,
-        borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius)),
-        border: widget.borderColor != null
-              ? Border.all(
-                  color: widget.borderColor!,
-                  width: widget.borderWidth ?? 1,
-                )
-              : null
-      ),
-      width: _bounceAnimation.value,
-      height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.successIcon,
-              color: widget.iconsColor,
-              size: widget.iconSize,
-            )
-          : null,
-    );
-
-    Widget _cross = Container(
-      alignment: FractionalOffset.center,
-      decoration: BoxDecoration(
-          color: widget.errorColor,
-          borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius)),
-          border: widget.borderColor != null
-              ? Border.all(
-                  color: widget.borderColor!,
-                  width: widget.borderWidth ?? 1,
-                )
-              : null),
-      width: _bounceAnimation.value,
-      height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.failedIcon,
-              color: widget.iconsColor,
-              size: widget.iconSize,
-            )
-          : null,
-    );
-
     return SizedBox(
       height: widget.height,
       child: Center(
         child: _state.value == ButtonState.error
-            ? _cross
+            ? ResultContainer(
+                color: widget.errorColor,
+                borderColor: widget.borderColor,
+                radius: widget.borderRadius,
+                borderWidth: widget.borderWidth,
+                icon: widget.failedIcon,
+                iconsColor: widget.iconsColor,
+                iconSize: widget.iconSize,
+                animationSize: _bounceAnimation.value,
+              )
             : _state.value == ButtonState.success
-                ? _check
+                ? ResultContainer(
+                    color: widget.successColor ?? widget.color,
+                    borderColor: widget.borderColor,
+                    radius: widget.borderRadius,
+                    borderWidth: widget.borderWidth,
+                    icon: widget.successIcon,
+                    iconsColor: widget.iconsColor,
+                    iconSize: widget.iconSize,
+                    animationSize: _bounceAnimation.value,
+                  )
                 : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: widget.color,
@@ -340,5 +314,3 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     _checkButtonController.reset();
   }
 }
-
-
