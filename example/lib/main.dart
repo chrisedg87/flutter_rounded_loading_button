@@ -33,18 +33,20 @@ class _MyHomePageState extends State<MyHomePage> {
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
 
+  final RoundedLoadingButtonController _btnController3 =
+      RoundedLoadingButtonController();
+
   void _doSomething(RoundedLoadingButtonController controller) async {
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 3), () {
       controller.success();
     });
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _btnController1.stateStream.listen((value) {
       print(value);
-
     });
   }
 
@@ -70,13 +72,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               RoundedLoadingButton(
                 color: Colors.amber,
-                successColor: Colors.amber,
                 controller: _btnController2,
                 onPressed: () => _doSomething(_btnController2),
-                valueColor: Colors.black,
+                iconsColor: Colors.black,
                 borderRadius: 10,
                 child: Text('''
 Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              RoundedLoadingButton(
+                color: Colors.transparent,
+                successColor: Colors.green,
+                controller: _btnController3,
+                onPressed: () => _doSomething(_btnController3),
+                iconsColor: Colors.black,
+                borderRadius: 10,
+                borderColor: Colors.black,
+                child:
+                    Text("I'm outlined", style: TextStyle(color: Colors.black)),
+                elevation: 0,
+                resetAfterDuration: true,
+                resetDuration: Duration(seconds: 5),
               ),
               SizedBox(
                 height: 50,
@@ -89,6 +107,7 @@ Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     _btnController1.reset();
                     _btnController2.reset();
+                    _btnController3.reset();
                   },
                   child: Text('Reset')),
               SizedBox(
@@ -102,6 +121,7 @@ Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
                 onPressed: () {
                   _btnController1.error();
                   _btnController2.error();
+                  _btnController3.error();
                 },
                 child: Text('Error'),
               ),
@@ -114,12 +134,27 @@ Tap me i have a huge text''', style: TextStyle(color: Colors.white)),
                       borderRadius: BorderRadius.circular(30))),
                 ),
                 onPressed: () {
-                  // _btnController1.success();
-                  // _btnController2.success();
-                  // _btnController1
+                  _btnController1.success();
+                  _btnController2.success();
+                  _btnController3.success();
                   print(_btnController1.currentState);
                 },
                 child: Text('Success'),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
+                ),
+                onPressed: () {
+                  print('Button 1: ' + _btnController1.currentState.toString());
+                  print('Button 2: ' + _btnController2.currentState.toString());
+                  print('Button 3: ' + _btnController3.currentState.toString());
+                },
+                child: Text('States'),
               )
             ],
           ),
