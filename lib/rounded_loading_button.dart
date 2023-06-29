@@ -216,7 +216,10 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          side: widget.borderSide,
+          side: widget.borderSide?.copyWith(
+            color: _borderColorAnimation.value,
+            width: _borderWidthAnimation.value,
+          ),
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
         ),
