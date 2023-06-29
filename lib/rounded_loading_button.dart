@@ -82,6 +82,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The duration of the success and failed animation
   final Duration completionDuration;
 
+  /// The border of the button
+  final BorderSide? borderSide;
+
   Duration get _borderDuration {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
   }
@@ -112,6 +115,7 @@ class RoundedLoadingButton extends StatefulWidget {
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
+    this.borderSide,
   }) : super(key: key);
 
   @override
@@ -128,6 +132,8 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
   late Animation _squeezeAnimation;
   late Animation _bounceAnimation;
   late Animation _borderAnimation;
+  late Animation<double> _borderWidthAnimation;
+  late Animation<Color?> _borderColorAnimation;
 
   final _state = BehaviorSubject<ButtonState>.seeded(ButtonState.idle);
 
@@ -189,17 +195,24 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     );
 
     final _btn = ButtonTheme(
-      shape: RoundedRectangleBorder(borderRadius: _borderAnimation.value),
+      shape: RoundedRectangleBorder(
+        borderRadius: _borderAnimation.value,
+      ),
       disabledColor: widget.disabledColor,
       padding: const EdgeInsets.all(0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onSurface: widget.disabledColor,
           minimumSize: Size(_squeezeAnimation.value, widget.height),
+          backgroundColor: widget.color,
+          disabledForegroundColor: widget.disabledColor?.withOpacity(0.38),
+          disabledBackgroundColor: widget.disabledColor?.withOpacity(0.12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          primary: widget.color,
+          side: widget.borderSide?.copyWith(
+            color: _borderColorAnimation.value,
+            width: _borderWidthAnimation.value,
+          ),
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
         ),
@@ -266,6 +279,24 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
     ).animate(_borderController);
 
     _borderAnimation.addListener(() {
+      setState(() {});
+    });
+
+    _borderWidthAnimation = Tween<double>(
+      begin: 1, // The initial width of the border.
+      end: 0, // The final width of the border.
+    ).animate(_borderController);
+
+    _borderWidthAnimation.addListener(() {
+      setState(() {});
+    });
+
+    _borderColorAnimation = ColorTween(
+      begin: widget.borderSide?.color, // The initial color of the border.
+      end: Colors.transparent, // The final color of the border.
+    ).animate(_borderController);
+
+    _borderColorAnimation.addListener(() {
       setState(() {});
     });
 
