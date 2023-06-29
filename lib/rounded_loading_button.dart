@@ -82,6 +82,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The duration of the success and failed animation
   final Duration completionDuration;
 
+  /// The border of the button
+  final BorderSide? borderSide;
+
   Duration get _borderDuration {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
   }
@@ -112,6 +115,7 @@ class RoundedLoadingButton extends StatefulWidget {
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
+    this.borderSide,
   }) : super(key: key);
 
   @override
@@ -194,12 +198,14 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       padding: const EdgeInsets.all(0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onSurface: widget.disabledColor,
           minimumSize: Size(_squeezeAnimation.value, widget.height),
+          backgroundColor: widget.color,
+          disabledForegroundColor: widget.disabledColor?.withOpacity(0.38),
+          disabledBackgroundColor: widget.disabledColor?.withOpacity(0.12),
           shape: RoundedRectangleBorder(
+            side: widget.borderSide ?? BorderSide.none,
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          primary: widget.color,
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
         ),
