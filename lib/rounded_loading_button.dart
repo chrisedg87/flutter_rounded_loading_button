@@ -82,6 +82,9 @@ class RoundedLoadingButton extends StatefulWidget {
   /// The duration of the success and failed animation
   final Duration completionDuration;
 
+  /// The callback that is called before the button animation starts
+  final VoidCallback? onPressBeforeAnimation;
+
   Duration get _borderDuration {
     return Duration(milliseconds: (duration.inMilliseconds / 2).round());
   }
@@ -112,6 +115,7 @@ class RoundedLoadingButton extends StatefulWidget {
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
+    this.onPressBeforeAnimation,
   }) : super(key: key);
 
   @override
@@ -289,6 +293,9 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
 
   void _btnPressed() async {
     if (widget.animateOnTap) {
+      if (widget.onPressBeforeAnimation != null) {
+        widget.onPressBeforeAnimation!();
+      }
       _start();
     } else {
       if (widget.onPressed != null) {
