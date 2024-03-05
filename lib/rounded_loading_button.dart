@@ -71,10 +71,10 @@ class RoundedLoadingButton extends StatefulWidget {
   final Color? disabledColor;
 
   /// The icon for the success state
-  final IconData successIcon;
+  final Icon successIcon;
 
   /// The icon for the failed state
-  final IconData failedIcon;
+  final Icon failedIcon;
 
   /// The success and failed animation curve
   final Curve completionCurve;
@@ -87,7 +87,7 @@ class RoundedLoadingButton extends StatefulWidget {
   }
 
   /// initialize constructor
-  const RoundedLoadingButton({
+  RoundedLoadingButton({
     Key? key,
     required this.controller,
     required this.onPressed,
@@ -107,12 +107,14 @@ class RoundedLoadingButton extends StatefulWidget {
     this.successColor,
     this.resetDuration = const Duration(seconds: 15),
     this.resetAfterDuration = false,
-    this.successIcon = Icons.check,
-    this.failedIcon = Icons.close,
+    Icon? successIcon,
+    Icon? failedIcon,
     this.completionCurve = Curves.elasticOut,
     this.completionDuration = const Duration(milliseconds: 1000),
     this.disabledColor,
-  }) : super(key: key);
+  }) : successIcon = successIcon ?? Icon(Icons.check, color: valueColor, size: 32),
+       failedIcon = successIcon ?? Icon(Icons.close, color: valueColor, size: 32),
+       super(key: key);
 
   @override
   State<StatefulWidget> createState() => RoundedLoadingButtonState();
@@ -144,12 +146,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       ),
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.successIcon,
-              color: widget.valueColor,
-            )
-          : null,
+      child: _bounceAnimation.value > 20 ? widget.successIcon : null,
     );
 
     Widget _cross = Container(
@@ -161,12 +158,7 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       ),
       width: _bounceAnimation.value,
       height: _bounceAnimation.value,
-      child: _bounceAnimation.value > 20
-          ? Icon(
-              widget.failedIcon,
-              color: widget.valueColor,
-            )
-          : null,
+      child: _bounceAnimation.value > 20 ? widget.failedIcon : null,
     );
 
     Widget _loader = SizedBox(
@@ -194,12 +186,12 @@ class RoundedLoadingButtonState extends State<RoundedLoadingButton>
       padding: const EdgeInsets.all(0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onSurface: widget.disabledColor,
+          disabledForegroundColor: widget.disabledColor,
           minimumSize: Size(_squeezeAnimation.value, widget.height),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          primary: widget.color,
+          backgroundColor: widget.color,
           elevation: widget.elevation,
           padding: const EdgeInsets.all(0),
         ),

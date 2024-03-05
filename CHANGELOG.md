@@ -1,3 +1,9 @@
+## [3.0.0]
+* Replaced deprecated uses of `onSurface` and `primary` color arguments.
+
+## [2.2.0] BREAKING CHANGES
+* Changed `successIcon` and `failedIcon` from type [IconData] to [Icon] to support styling.
+
 ## [2.1.0]
 * Fixed issues related to late initialisation in the controller (Programmatically stop and start fails #47)
 * Added safety against bad state errors (Unhandled Exception: Bad state: Cannot add new events after calling close #48)
