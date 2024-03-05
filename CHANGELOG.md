@@ -1,3 +1,6 @@
+## [3.0.0]
+* Replaced deprecated uses of `onSurface` and `primary` color arguments.
+
 ## [2.2.0] BREAKING CHANGES
 * Changed `successIcon` and `failedIcon` from type [IconData] to [Icon] to support styling.
 
